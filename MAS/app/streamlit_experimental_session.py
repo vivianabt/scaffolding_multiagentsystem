@@ -42,12 +42,12 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-# Einzelne Experimentalbedingung: Neutral-Only (keine Scaffolding-Intervention)
-EXPERIMENTAL_CONDITIONS = ['CG_NEUTRAL']
+# Einzelne Experimentalbedingung mit fixer Sequenz (keine Randomisierung/Kontrollgruppe)
+EXPERIMENTAL_CONDITIONS = ['EG_SEQ']
 
-# Feste Agenten-Sequenz fuer alle Teilnehmenden (neutral in allen 4 Agenten-Runden)
+# Feste Agenten-Sequenz fuer alle Teilnehmenden
 AGENT_SEQUENCES = {
-    'CG_NEUTRAL': ["neutral", "neutral", "neutral", "neutral"]
+    'EG_SEQ': ["metacognitive_scaffolding", "strategic_scaffolding", "procedural_scaffolding", "conceptual_scaffolding"]
 }
 
 
@@ -370,7 +370,7 @@ class StreamlitExperimentalSession:
         """Render Cognitive Load Theory questionnaire."""
         import streamlit as st
         
-        st.header("📊 Bitte beantworten Sie die folgenden Aussagen:")
+        st.header("📊 Erhebung der kognitiven Belastung")
         st.markdown("---")
         
         st.info("""
@@ -842,6 +842,14 @@ class StreamlitExperimentalSession:
             "Other", "Prefer not to say"
         ]
         
+        education_options = [
+            "Wann nutzen Sie Künstliche Intelligenz? Bitte auswählen...",
+            "Im Alltag",
+            "Im Studium",
+            "An der Arbeit",
+            "Nie"
+        ]
+        
         gender_options = [
             "Please select...",
             "Female",
@@ -851,85 +859,28 @@ class StreamlitExperimentalSession:
         ]
         
         with st.form("learner_profile_form"):
-  
-            name = st.text_input("Alias*", help="Choose an alias or identifier")
-            age = st.number_input(
-                "Age*",
-                step=1,
-                help="Your age"
-            )
-            gender = st.selectbox(
-                "Gender*",
-                options=gender_options,
-                help="Select your gender"
-            )
-            nationality = st.selectbox(
-                "Nationality*", 
-                options=nationality_options,
-                help="Select your nationality"
-            )
-
-            education_level = st.selectbox(
-                "Höchster Bildungsabschluss*",
-                [
-                    "Kein Schulabschluss",
-                    "Hauptschulabschluss",
-                    "Realschulabschluss",
-                    "Abitur",
-                    "Bachelor",
-                    "Master",
-                    "Promotion",
-                    "Sonstiges"
-                ]
-            )
-
-            activity = st.multiselect(
-                "Was trifft aktuell auf Sie zu? (Mehrfachauswahl möglich)",
-                [
-                    "Ich studiere",
-                    "Ich bin erwerbstätig",
-                    "Sonstiges"
-                ]
-            )
-
-            study_program = None
+            col1, col2 = st.columns(2)
             
-            if "Ich studiere" in activity:
-                study_program = st.text_input(
-                    "Studiengang",
-                    help="Bitte geben Sie Ihren Studiengang an"
+            with col1:
+                name = st.text_input("Alias*", help="Choose an alias or identifier")
+                age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
+                gender = st.selectbox(
+                    "Gender*",
+                    options=gender_options,
+                    help="Select your gender"
                 )
-
-            study_semester = None
-            
-            if "Ich studiere" in activity:
-                study_semester = st.number_input(
-                    "Aktuelles Studiensemester",
-                    min_value=1,
-                    step=1
+                nationality = st.selectbox(
+                    "Nationality*", 
+                    options=nationality_options,
+                    help="Select your nationality"
+                )
+                background = st.selectbox(
+                    "Nutzung Künstlicher Intelligenz*", 
+                    options=education_options,
+                    help="Wann nutzen Sie Künstliche Intelligenz?"
                 )
             
-            domain_knowledge = st.selectbox(
-                "Haben Sie Erfahrungen in diesem Themenbereich?",
-                [
-                    "Keine Erfahrung",
-                    "Geringe Erfahrung",
-                    "Mittlere Erfahrung",
-                    "Hohe Erfahrung",
-                    "Sehr hohe / Expertenkenntnisse"
-                ]
-            )
-
-            ai_usage = st.multiselect(
-                "Wann nutzen Sie Künstliche Intelligenz?* (Mehrfachauswahl möglich)",
-                [
-                    "Im Alltag",
-                    "Im Studium",
-                    "An der Arbeit",
-                    "Nie"
-                ]
-            )
-            
+            with col2:
                 # confidence = st.selectbox(
                 #     "Confidence in Concept Mapping*",
                 #     options=["1 - Very Low", "2 - Low", "3 - Moderate", "4 - High", "5 - Very High"],
@@ -974,7 +925,7 @@ class StreamlitExperimentalSession:
             if submitted:
                 # Validate required fields
                 # if not all([name, age, gender, nationality, background, confidence, confidencechat]):
-                if not all([name, age, gender, nationality, education_level, ai_usage, confidencechat]):
+                if not all([name, age, gender, nationality, background, confidencechat]):
                     st.error("Please fill in all required fields marked with *")
                     return None
                 
@@ -987,11 +938,15 @@ class StreamlitExperimentalSession:
                     st.error("Please select your nationality from the dropdown menu")
                     return None
                 
+                if background == "Please select...":
+                    st.error("Please select your highest educational level from the dropdown menu")
+                    return None
+                
                 # unique ID
-                unique_id = "V2EF9RLL"
+                unique_id = "V1EF9RLL"
                 
                 # Assess background knowledge and determine scaffolding level
-                background_score = self.assess_background_knowledge(ai_usage, "")  # No prior knowledge field anymore
+                background_score = self.assess_background_knowledge(background, "")  # No prior knowledge field anymore
                 scaffolding_level = self.determine_scaffolding_level(background_score)
                 
                 profile = {
@@ -1072,13 +1027,13 @@ class StreamlitExperimentalSession:
         Assign the single experimental condition (no randomization).
         
         Returns:
-            Assigned experimental condition (fixed: CG_NEUTRAL)
+            Assigned experimental condition (fixed: EG_SEQ)
         """
         # Check if condition already assigned
         if "experimental_condition" in self.session_data:
             return self.session_data["experimental_condition"]
         
-        assigned_condition = "CG_NEUTRAL"
+        assigned_condition = "EG_SEQ"
         
         # Store in session data
         self.session_data["experimental_condition"] = assigned_condition
@@ -1090,7 +1045,7 @@ class StreamlitExperimentalSession:
                 metadata={
                     "experimental_condition": assigned_condition,
                     "session_id": self.session_data["session_id"],
-                    "assignment_method": "fixed_single_condition_neutral",
+                    "assignment_method": "fixed_single_condition",
                     "condition_index": 0,
                     "timestamp": datetime.now().isoformat()
                 }
@@ -1118,14 +1073,7 @@ class StreamlitExperimentalSession:
         experimental_condition = self.assign_experimental_condition()
         
         # Get agent sequence based on experimental condition
-        agents = AGENT_SEQUENCES.get(experimental_condition)
-        if agents is None:
-            # Fallback: use the first configured sequence (and log for debugging)
-            agents = next(iter(AGENT_SEQUENCES.values()))
-            logger.warning(
-                "Unknown experimental_condition '%s' - falling back to default agent sequence.",
-                experimental_condition,
-            )
+        agents = AGENT_SEQUENCES.get(experimental_condition, AGENT_SEQUENCES['EG_SEQ'])
         
         # Note: Round 0 is handled separately (no scaffolding agent)
         
