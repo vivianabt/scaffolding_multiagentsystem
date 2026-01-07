@@ -369,6 +369,8 @@ class StreamlitExperimentalSession:
     def render_clt_questionnaire(self):
         """Render Cognitive Load Theory questionnaire."""
         import streamlit as st
+
+        st.markdown("<div id='top'></div>", unsafe_allow_html=True)
         
         st.header("📊 Befragung")
         st.markdown("Bitte bewerte die folgenden Aussagen zur soeben abgeschlossenen Lernaufgabe.")
