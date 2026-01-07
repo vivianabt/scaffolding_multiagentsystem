@@ -854,7 +854,11 @@ class StreamlitExperimentalSession:
         with st.form("learner_profile_form"):
   
             name = st.text_input("Alias*", help="Choose an alias or identifier")
-            age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
+            age = st.number_input(
+                "Age*",
+                step=1,
+                help="Your age"
+            )
             gender = st.selectbox(
                 "Gender*",
                 options=gender_options,
@@ -879,7 +883,44 @@ class StreamlitExperimentalSession:
                     "Sonstiges"
                 ]
             )
-        
+
+            activity = st.multiselect(
+                "Was trifft aktuell auf Sie zu? (Mehrfachauswahl möglich)",
+                [
+                    "Ich studiere",
+                    "Ich bin erwerbstätig",
+                    "Sonstiges"
+                ]
+            )
+
+            study_program = None
+            
+            if "Ich studiere" in activity:
+                study_program = st.text_input(
+                    "Studiengang",
+                    help="Bitte geben Sie Ihren Studiengang an"
+                )
+
+            study_semester = None
+            
+            if "Ich studiere" in activity:
+                study_semester = st.number_input(
+                    "Aktuelles Studiensemester",
+                    min_value=1,
+                    step=1
+                )
+            
+            domain_knowledge = st.selectbox(
+                "Haben Sie Erfahrungen in diesem Themenbereich?",
+                [
+                    "Keine Erfahrung",
+                    "Geringe Erfahrung",
+                    "Mittlere Erfahrung",
+                    "Hohe Erfahrung",
+                    "Sehr hohe / Expertenkenntnisse"
+                ]
+            )
+
             ai_usage = st.multiselect(
                 "Wann nutzen Sie Künstliche Intelligenz?* (Mehrfachauswahl möglich)",
                 [
