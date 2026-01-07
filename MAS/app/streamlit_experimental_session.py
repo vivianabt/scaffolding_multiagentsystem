@@ -988,10 +988,6 @@ class StreamlitExperimentalSession:
                     st.error("Please select your nationality from the dropdown menu")
                     return None
                 
-                if background == "Please select...":
-                    st.error("Please select your highest educational level from the dropdown menu")
-                    return None
-                
                 # unique ID
                 unique_id = "V1EF9RLL"
                 
