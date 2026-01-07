@@ -987,15 +987,11 @@ class StreamlitExperimentalSession:
                     st.error("Please select your nationality from the dropdown menu")
                     return None
                 
-                if background == "Please select...":
-                    st.error("Please select your highest educational level from the dropdown menu")
-                    return None
-                
                 # unique ID
                 unique_id = "V2EF9RLL"
                 
                 # Assess background knowledge and determine scaffolding level
-                background_score = self.assess_background_knowledge(background, "")  # No prior knowledge field anymore
+                background_score = self.assess_background_knowledge(ai_usage, "")  # No prior knowledge field anymore
                 scaffolding_level = self.determine_scaffolding_level(background_score)
                 
                 profile = {
