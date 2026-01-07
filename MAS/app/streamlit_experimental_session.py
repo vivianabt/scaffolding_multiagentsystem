@@ -869,7 +869,11 @@ class StreamlitExperimentalSession:
                 options=nationality_options,
                 help="Select your nationality"
             )
-
+            background = st.selectbox(
+                "Nutzung Künstlicher Intelligenz*", 
+                options=education_options,
+                help="Wann nutzen Sie Künstliche Intelligenz?"
+                )
             education_level = st.selectbox(
                 "Höchster Bildungsabschluss*",
                 [
@@ -975,7 +979,7 @@ class StreamlitExperimentalSession:
             if submitted:
                 # Validate required fields
                 # if not all([name, age, gender, nationality, background, confidence, confidencechat]):
-                if not all([name, age, gender, nationality, education_level, ai_usage, confidencechat]):
+                if not all([name, age, gender, nationality, education_level, background, confidencechat]):
                     st.error("Please fill in all required fields marked with *")
                     return None
                 
@@ -986,6 +990,10 @@ class StreamlitExperimentalSession:
                 
                 if nationality == "Please select...":
                     st.error("Please select your nationality from the dropdown menu")
+                    return None
+
+                if background == "Please select...":
+                    st.error("Please select your highest educational level from the dropdown menu")
                     return None
                 
                 # unique ID
