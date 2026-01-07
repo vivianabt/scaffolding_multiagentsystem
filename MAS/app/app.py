@@ -605,6 +605,9 @@ def render_domain_knowledge_questionnaire():
 
 def render_critical_ai_questionnaire():
     """Render measurement 3: critical stance towards AI."""
+
+    st.markdown("<div id='top'></div>", unsafe_allow_html=True)
+    
     st.header("🧠 Befragung")
     st.markdown("Bitte bewerte die folgenden Aussagen.")
 
