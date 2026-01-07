@@ -842,14 +842,6 @@ class StreamlitExperimentalSession:
             "Other", "Prefer not to say"
         ]
         
-        education_options = [
-            "Wann nutzen Sie Künstliche Intelligenz? Bitte auswählen...",
-            "Im Alltag",
-            "Im Studium",
-            "An der Arbeit",
-            "Nie"
-        ]
-        
         gender_options = [
             "Please select...",
             "Female",
@@ -859,28 +851,85 @@ class StreamlitExperimentalSession:
         ]
         
         with st.form("learner_profile_form"):
-            col1, col2 = st.columns(2)
+  
+            name = st.text_input("Alias*", help="Choose an alias or identifier")
+            age = st.number_input(
+                "Age*",
+                step=1,
+                help="Your age"
+            )
+            gender = st.selectbox(
+                "Gender*",
+                options=gender_options,
+                help="Select your gender"
+            )
+            nationality = st.selectbox(
+                "Nationality*", 
+                options=nationality_options,
+                help="Select your nationality"
+            )
+
+            education_level = st.selectbox(
+                "Höchster Bildungsabschluss*",
+                [
+                    "Kein Schulabschluss",
+                    "Hauptschulabschluss",
+                    "Realschulabschluss",
+                    "Abitur",
+                    "Bachelor",
+                    "Master",
+                    "Promotion",
+                    "Sonstiges"
+                ]
+            )
+
+            activity = st.multiselect(
+                "Was trifft aktuell auf Sie zu? (Mehrfachauswahl möglich)",
+                [
+                    "Ich studiere",
+                    "Ich bin erwerbstätig",
+                    "Sonstiges"
+                ]
+            )
+
+            study_program = None
             
-            with col1:
-                name = st.text_input("Alias*", help="Choose an alias or identifier")
-                age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
-                gender = st.selectbox(
-                    "Gender*",
-                    options=gender_options,
-                    help="Select your gender"
+            if "Ich studiere" in activity:
+                study_program = st.text_input(
+                    "Studiengang",
+                    help="Bitte geben Sie Ihren Studiengang an"
                 )
-                nationality = st.selectbox(
-                    "Nationality*", 
-                    options=nationality_options,
-                    help="Select your nationality"
-                )
-                background = st.selectbox(
-                    "Nutzung Künstlicher Intelligenz*", 
-                    options=education_options,
-                    help="Wann nutzen Sie Künstliche Intelligenz?"
+
+            study_semester = None
+            
+            if "Ich studiere" in activity:
+                study_semester = st.number_input(
+                    "Aktuelles Studiensemester",
+                    min_value=1,
+                    step=1
                 )
             
-            with col2:
+            domain_knowledge = st.selectbox(
+                "Haben Sie Erfahrungen in diesem Themenbereich?",
+                [
+                    "Keine Erfahrung",
+                    "Geringe Erfahrung",
+                    "Mittlere Erfahrung",
+                    "Hohe Erfahrung",
+                    "Sehr hohe / Expertenkenntnisse"
+                ]
+            )
+
+            ai_usage = st.multiselect(
+                "Wann nutzen Sie Künstliche Intelligenz?* (Mehrfachauswahl möglich)",
+                [
+                    "Im Alltag",
+                    "Im Studium",
+                    "An der Arbeit",
+                    "Nie"
+                ]
+            )
+            
                 # confidence = st.selectbox(
                 #     "Confidence in Concept Mapping*",
                 #     options=["1 - Very Low", "2 - Low", "3 - Moderate", "4 - High", "5 - Very High"],
