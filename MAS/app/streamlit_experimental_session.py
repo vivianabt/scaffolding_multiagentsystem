@@ -925,7 +925,17 @@ class StreamlitExperimentalSession:
                 options=education_options,
                 help="Wann nutzen Sie Künstliche Intelligenz?"
             )
-        
+
+            ai_usage_multi = st.multiselect(
+                "In welchen Kontexten nutzen Sie Künstliche Intelligenz? (Mehrfachauswahl möglich)*",
+                [
+                    "Im Alltag",
+                    "Im Studium",
+                    "An der Arbeit",
+                    "Ich nutze keine KI"
+                ]
+            )
+
             confidencechat = st.selectbox(
                 "Sicherheit in der Interaktion mit KI*",
                 options=[
@@ -974,6 +984,7 @@ class StreamlitExperimentalSession:
                     education_level != "Please select...",
                     activity,
                     background != "Please select...",
+                    ai_usage_multi,
                     confidencechat
                 ]):
                     st.error("Bitte füllen Sie alle Pflichtfelder aus.")
@@ -1010,6 +1021,7 @@ class StreamlitExperimentalSession:
                     "gender": gender.strip(),
                     "nationality": nationality.strip(),
                     "background": background.strip(),
+                    "ai_usage_multi": ai_usage_multi, 
                     "education_level": education_level,
                     "activity": activity,
                     "study_program": study_program,
