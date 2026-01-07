@@ -852,6 +852,19 @@ class StreamlitExperimentalSession:
         ]
         
         with st.form("learner_profile_form"):
+  
+            name = st.text_input("Alias*", help="Choose an alias or identifier")
+            age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
+            gender = st.selectbox(
+                "Gender*",
+                options=gender_options,
+                help="Select your gender"
+            )
+            nationality = st.selectbox(
+                "Nationality*", 
+                options=nationality_options,
+                help="Select your nationality"
+            )
 
             education_level = st.selectbox(
                 "Höchster Bildungsabschluss*",
@@ -875,20 +888,6 @@ class StreamlitExperimentalSession:
                     "An der Arbeit",
                     "Nie"
                 ]
-            )
-
-            
-            name = st.text_input("Alias*", help="Choose an alias or identifier")
-            age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
-            gender = st.selectbox(
-                "Gender*",
-                options=gender_options,
-                help="Select your gender"
-            )
-            nationality = st.selectbox(
-                "Nationality*", 
-                options=nationality_options,
-                help="Select your nationality"
             )
         
             # confidence = st.selectbox(
