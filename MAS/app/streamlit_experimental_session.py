@@ -847,9 +847,11 @@ class StreamlitExperimentalSession:
             "Im Alltag",
             "Im Studium",
             "An der Arbeit",
+            "In mehreren Bereichen (z. B. Studium und Arbeit)",
+            "In allen genannten Bereichen",
             "Nie"
         ]
-        
+
         gender_options = [
             "Please select...",
             "Female",
@@ -859,7 +861,7 @@ class StreamlitExperimentalSession:
         ]
         
         with st.form("learner_profile_form"):
-            
+
             name = st.text_input("Alias*", help="Choose an alias or identifier")
         
             age = st.number_input(
@@ -925,7 +927,7 @@ class StreamlitExperimentalSession:
                 options=education_options,
                 help="Wann nutzen Sie Künstliche Intelligenz?"
             )
-        
+
             confidencechat = st.selectbox(
                 "Sicherheit in der Interaktion mit KI*",
                 options=[
@@ -937,6 +939,7 @@ class StreamlitExperimentalSession:
                 ],
                 help="Wie vertraut sind Sie im Umgang mit KI?"
             )
+        
 
                 # # Learning factors that could affect outcome
                 # st.markdown("**Learning Factors**")
