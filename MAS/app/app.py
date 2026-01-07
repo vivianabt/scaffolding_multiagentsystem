@@ -151,7 +151,7 @@ def render_mode_selection():
     - Deine Zeit wird zu Forschungszwecken erfasst
 
     ⚠️ **Wichtig:** Bitte alle Schritte der Reihe nach abschliessen. Daten werden nur erfasst, wenn alle Pflichtangaben gemacht wurden.
-    Deine sorgfaeltige Teilnahme sichert gueltige Forschungsdaten. Die besten 10 Prozent der Teilnehmenden erhalten einen Bonus.
+    Deine sorgfaeltige Teilnahme sichert gueltige Forschungsdaten.
     """)
 
     st.markdown("**Bereit, das Experiment zu starten?**")
