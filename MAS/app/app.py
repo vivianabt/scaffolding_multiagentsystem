@@ -201,8 +201,7 @@ def render_consent_form():
         Dauer: ca. **30 Minuten**.
 
         **Nutzen:**
-        Neben der Verguetung hilfst du, Lerntechnologien und KI-Lernhilfen zu verbessern.
-        Die besten 10 Prozent der Teilnehmenden erhalten einen Bonus nach Auswertung.
+        Deine Teilnahme hilft, Lerntechnologien und KI-gestuetzte Lernhilfen weiterzuentwickeln.
 
         **Risiken & Vertraulichkeit:**
         Es sind keine besonderen Risiken bekannt; ein Restrisiko fuer Vertraulichkeit besteht immer online.
