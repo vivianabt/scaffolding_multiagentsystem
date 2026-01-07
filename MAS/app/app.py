@@ -441,8 +441,8 @@ def render_tutorial():
 
 def render_agent_acceptance_question():
     """Render agent acceptance question before questionnaires."""
-    st.header("🤖 Agenten-Akzeptanz")
-    st.markdown("---")
+    st.header("🤖 Befragung")
+    st.markdown("Bitte bewerten Sie folgende Aussage.")
 
     st.info("""
     Bevor es mit den letzten Frageboegen weitergeht, wollen wir wissen, wie du die Agenten erlebt hast.
@@ -572,7 +572,8 @@ def render_map_adaption_question():
 
 def render_domain_knowledge_questionnaire():
     """Render domain knowledge / expertise questionnaire (post-task)."""
-
+    
+    st.header("📝 Befragung")
     st.markdown("Bitte beantworten Sie die folgende Frage.")
 
     options = [
@@ -604,10 +605,8 @@ def render_domain_knowledge_questionnaire():
 
 def render_critical_ai_questionnaire():
     """Render measurement 3: critical stance towards AI."""
-    st.header("🧠 Kritischer Umgang mit KI")
-    st.markdown("---")
-
-    st.info("Bitte bewerte die folgenden Aussagen.")
+    st.header("🧠 Befragung")
+    st.markdown("Bitte bewerte die folgenden Aussagen.")
 
     options = [
         "Stimme überhaupt nicht zu",
