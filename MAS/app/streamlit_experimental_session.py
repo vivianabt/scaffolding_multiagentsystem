@@ -975,7 +975,7 @@ class StreamlitExperimentalSession:
             if submitted:
                 # Validate required fields
                 # if not all([name, age, gender, nationality, background, confidence, confidencechat]):
-                if not all([name, age, gender, nationality, background, confidencechat]):
+                if not all([name, age, gender, nationality, education_level, ai_usage, confidencechat]):
                     st.error("Please fill in all required fields marked with *")
                     return None
                 
