@@ -570,6 +570,38 @@ def render_map_adaption_question():
             st.rerun()
 
 
+def render_domain_knowledge_questionnaire():
+    """Render domain knowledge / expertise questionnaire (post-task)."""
+
+    st.markdown("Bitte beantworten Sie die folgende Frage.")
+
+    options = [
+        "Keine Erfahrung",
+        "Geringe Erfahrung",
+        "Mittlere Erfahrung",
+        "Hohe Erfahrung",
+        "Sehr hohe Erfahrung / Expertenwissen"
+    ]
+
+    with st.form("domain_knowledge"):
+        st.radio(
+            "Hatten Sie vor der Aufgabe bereits Erfahrungen mit dem Themenbereich?",
+            options=options,
+            index=None,
+            key="domain_knowledge"   # 🔑 WICHTIG
+        )
+
+        submitted = st.form_submit_button("Weiter", type="primary")
+
+        if submitted:
+            if st.session_state.domain_knowledge is None:
+                st.error("Bitte treffen Sie eine Auswahl.")
+                return
+
+            st.session_state.domain_knowledge_completed = True
+            st.rerun()
+
+
 def render_critical_ai_questionnaire():
     """Render measurement 3: critical stance towards AI."""
     st.header("🧠 Kritischer Umgang mit KI")
@@ -1464,6 +1496,13 @@ def main():
              st.components.v1.html(scroll_js)
              return
 
+        # Domain knowledge (after task, before post-questionnaires)
+        if (st.session_state.mode == "experimental" and
+                not st.session_state.get('domain_knowledge_completed', False)):
+            render_domain_knowledge_questionnaire()
+            return
+
+        
         # CLT questionnaire (experimental mode only, after post-knowledge questionnaire)
         if (st.session_state.mode == "experimental" and
                 st.session_state.get('post_questionnaire_completed', False) and
