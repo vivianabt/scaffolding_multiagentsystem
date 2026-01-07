@@ -584,23 +584,21 @@ def render_domain_knowledge_questionnaire():
     ]
 
     with st.form("domain_knowledge"):
-        domain_knowledge = st.radio(
+        st.radio(
             "Hatten Sie vor der Aufgabe bereits Erfahrungen mit dem Themenbereich?",
             options=options,
-            index=None
+            index=None,
+            key="domain_knowledge"   # 🔑 WICHTIG
         )
 
         submitted = st.form_submit_button("Weiter", type="primary")
 
         if submitted:
-            if domain_knowledge is None:
+            if st.session_state.domain_knowledge is None:
                 st.error("Bitte treffen Sie eine Auswahl.")
                 return
 
-            # speichern
-            st.session_state.domain_knowledge = domain_knowledge
             st.session_state.domain_knowledge_completed = True
-
             st.rerun()
 
 
