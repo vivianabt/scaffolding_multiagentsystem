@@ -847,7 +847,7 @@ class StreamlitExperimentalSession:
             "Im Alltag",
             "Im Studium",
             "An der Arbeit",
-            "In mehreren Bereichen (z. B. Studium und Arbeit),
+            "In mehreren Bereichen (z. B. Studium und Arbeit)",
             "In allen genannten Bereichen",
             "Nie"
         ]
