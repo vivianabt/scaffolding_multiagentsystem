@@ -2076,6 +2076,10 @@ class StreamlitExperimentalSession:
                 "participant_id": self.session_data.get("learner_profile", {}).get("unique_id", "N/A"),
                 "participant_name": self.session_data.get("learner_profile", {}).get("name", "Unknown")
             }
+
+            # Store domain knowledge (post-task)
+            if "domain_knowledge" in st.session_state:
+                self.session_data["domain_knowledge"] = st.session_state.domain_knowledge
             
             # Save session data
             export_info = self.save_session_data()
