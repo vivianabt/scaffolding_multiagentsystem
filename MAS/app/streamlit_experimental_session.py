@@ -859,45 +859,86 @@ class StreamlitExperimentalSession:
         ]
         
         with st.form("learner_profile_form"):
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                name = st.text_input("Alias*", help="Choose an alias or identifier")
-                age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
-                gender = st.selectbox(
-                    "Gender*",
-                    options=gender_options,
-                    help="Select your gender"
-                )
-                nationality = st.selectbox(
-                    "Nationality*", 
-                    options=nationality_options,
-                    help="Select your nationality"
-                )
-                background = st.selectbox(
-                    "Nutzung Künstlicher Intelligenz*", 
-                    options=education_options,
-                    help="Wann nutzen Sie Künstliche Intelligenz?"
-                )
-            
-            with col2:
-                # confidence = st.selectbox(
-                #     "Confidence in Concept Mapping*",
-                #     options=["1 - Very Low", "2 - Low", "3 - Moderate", "4 - High", "5 - Very High"],
-                #     help="How confident do you feel about concept mapping?"
-                # )
 
-                confidencechat = st.selectbox(
-                    "Sicherheit in der Interaktion mit KI*",
-                    options=[
-                        "Ich habe noch nie von Künstlicher Intelligenz (KI) gehört.",
-                        "Ich habe von Künstlicher Intelligenz (KI) gehört, aber keine eigenen Erfahrungen damit.",
-                        "Ich habe grundlegende Erfahrungen mit der Nutzung von KI-Anwendungen oder -Tools",
-                        "Ich habe umfangreiche praktische Erfahrungen im Umgang mit KI.",
-                        "Ich habe sehr umfangreiche Erfahrungen in der KI-Forschung und/oder -Entwicklung.",
-                    ],
-                    help="Wie vertraut sind Sie im Umgang mit KI?",
+            name = st.text_input("Alias*", help="Choose an alias or identifier")
+        
+            age = st.number_input(
+                "Age*",
+                step=1,
+                help="Your age"
+            )
+        
+            gender = st.selectbox(
+                "Gender*",
+                options=gender_options,
+                help="Select your gender"
+            )
+        
+            nationality = st.selectbox(
+                "Nationality*",
+                options=nationality_options,
+                help="Select your nationality"
+            )
+        
+            education_level = st.selectbox(
+                "Höchster Bildungsabschluss*",
+                [
+                    "Please select...",
+                    "Kein Schulabschluss",
+                    "Hauptschulabschluss",
+                    "Realschulabschluss",
+                    "Abitur",
+                    "Bachelor",
+                    "Master",
+                    "Promotion",
+                    "Sonstiges"
+                ]
+            )
+        
+            activity = st.multiselect(
+                "Was trifft aktuell auf Sie zu? (Mehrfachauswahl möglich)*",
+                [
+                    "Ich studiere",
+                    "Ich bin erwerbstätig",
+                    "Sonstiges"
+                ]
+            )
+        
+            study_program = None
+            study_semester = None
+        
+            if "Ich studiere" in activity:
+                study_program = st.text_input(
+                    "Studiengang",
+                    help="Bitte geben Sie Ihren Studiengang an"
                 )
+        
+                study_semester = st.number_input(
+                    "Aktuelles Studiensemester",
+                    min_value=1,
+                    step=1
+                )
+        
+            # 🔽 HIER background aus dem ORIGINAL unverändert lassen
+            background = st.selectbox(
+                "Nutzung Künstlicher Intelligenz*",
+                options=education_options,
+                help="Wann nutzen Sie Künstliche Intelligenz?"
+            )
+        
+            confidencechat = st.selectbox(
+                "Sicherheit in der Interaktion mit KI*",
+                options=[
+                    "Ich habe noch nie von Künstlicher Intelligenz (KI) gehört.",
+                    "Ich habe von Künstlicher Intelligenz (KI) gehört, aber keine eigenen Erfahrungen damit.",
+                    "Ich habe grundlegende Erfahrungen mit der Nutzung von KI-Anwendungen oder -Tools",
+                    "Ich habe umfangreiche praktische Erfahrungen im Umgang mit KI.",
+                    "Ich habe sehr umfangreiche Erfahrungen in der KI-Forschung und/oder -Entwicklung.",
+                ],
+                help="Wie vertraut sind Sie im Umgang mit KI?"
+            )
+        
+
                 # # Learning factors that could affect outcome
                 # st.markdown("**Learning Factors**")
                 # st.caption("Please select any factors that may affect your learning (optional):")
@@ -925,10 +966,23 @@ class StreamlitExperimentalSession:
             if submitted:
                 # Validate required fields
                 # if not all([name, age, gender, nationality, background, confidence, confidencechat]):
-                if not all([name, age, gender, nationality, background, confidencechat]):
-                    st.error("Please fill in all required fields marked with *")
+                if not all([
+                    name,
+                    age,
+                    gender,
+                    nationality,
+                    education_level != "Please select...",
+                    activity,
+                    background != "Please select...",
+                    confidencechat
+                ]):
+                    st.error("Bitte füllen Sie alle Pflichtfelder aus.")
                     return None
-                
+
+                if "Ich studiere" in activity and (not study_program or not study_semester):
+                    st.error("Bitte geben Sie Studiengang und Studiensemester an.")
+                    return None
+
                 # Validate dropdown selections (ensure not default values)
                 if gender == "Please select...":
                     st.error("Please select your gender from the dropdown menu")
@@ -956,6 +1010,10 @@ class StreamlitExperimentalSession:
                     "gender": gender.strip(),
                     "nationality": nationality.strip(),
                     "background": background.strip(),
+                    "education_level": education_level,
+                    "activity": activity,
+                    "study_program": study_program,
+                    "study_semester": study_semester,
                     # "confidence": confidence,
                     "confidencechat": confidencechat,
 #                    "learning_factors": learning_factors,
