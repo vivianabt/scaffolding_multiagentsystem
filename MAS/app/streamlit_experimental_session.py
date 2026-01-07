@@ -370,7 +370,7 @@ class StreamlitExperimentalSession:
         """Render Cognitive Load Theory questionnaire."""
         import streamlit as st
         
-        st.header("📊 Erhebung der kognitiven Belastung")
+        st.header("📊 Bitte beantworten Sie die folgenden Aussagen:")
         st.markdown("---")
         
         st.info("""
