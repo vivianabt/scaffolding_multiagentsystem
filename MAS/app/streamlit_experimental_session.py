@@ -847,9 +847,11 @@ class StreamlitExperimentalSession:
             "Im Alltag",
             "Im Studium",
             "An der Arbeit",
+            "In mehreren Bereichen (z. B. Studium und Arbeit),
+            "In allen genannten Bereichen",
             "Nie"
         ]
-        
+
         gender_options = [
             "Please select...",
             "Female",
@@ -924,16 +926,6 @@ class StreamlitExperimentalSession:
                 "Nutzung Künstlicher Intelligenz*",
                 options=education_options,
                 help="Wann nutzen Sie Künstliche Intelligenz?"
-            )
-
-            ai_usage_multi = st.multiselect(
-                "In welchen Kontexten nutzen Sie Künstliche Intelligenz? (Mehrfachauswahl möglich)*",
-                [
-                    "Im Alltag",
-                    "Im Studium",
-                    "An der Arbeit",
-                    "Ich nutze keine KI"
-                ]
             )
 
             confidencechat = st.selectbox(
