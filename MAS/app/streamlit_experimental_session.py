@@ -370,12 +370,12 @@ class StreamlitExperimentalSession:
         """Render Cognitive Load Theory questionnaire."""
         import streamlit as st
         
-        st.header("📊 Erhebung der kognitiven Belastung")
-        st.markdown("---")
+        st.markdown("<div id='top'></div>", unsafe_allow_html=True)
+        
+        st.header("📊 Befragung")
+        st.markdown("Bitte bewerte die folgenden Aussagen zur soeben abgeschlossenen Lernaufgabe.")
         
         st.info("""
-        Das ist der letzte Fragebogen. Bitte bewerte die folgenden Aussagen zur soeben abgeschlossenen Lernaufgabe.
-        
         Waehle fur jede Aussage eine Bewertung von 1 (trifft gar nicht zu) bis 9 (trifft voll zu).
         """)
         
