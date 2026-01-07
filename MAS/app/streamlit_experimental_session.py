@@ -992,7 +992,7 @@ class StreamlitExperimentalSession:
                 unique_id = "V1EF9RLL"
                 
                 # Assess background knowledge and determine scaffolding level
-                background_score = self.assess_background_knowledge(ai-usage, "")  # No prior knowledge field anymore
+                background_score = self.assess_background_knowledge(ai_usage, "")  # No prior knowledge field anymore
                 scaffolding_level = self.determine_scaffolding_level(background_score)
                 
                 profile = {
