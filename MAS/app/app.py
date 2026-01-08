@@ -816,7 +816,7 @@ def render_summary_page():
     
         if os.path.exists(experimental_data_dir):
             files = os.listdir(experimental_data_dir)
-            csv_files = [f for f in files if f.endswith(".csv") and "experimental_results" in f]
+            csv_files = [f for f in files if f.endswith(".csv")]
     
             if csv_files:
                 latest_csv = sorted(csv_files)[-1]
