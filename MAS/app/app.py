@@ -788,15 +788,14 @@ def render_summary_page():
     )
     
     if email and not consent:
-        st.error("Bitte bestätigen Sie die Einwilligung zur Nutzung der E-Mail-Adresse.")
+        st.error("Bitte bestätige die Einwilligung zur Nutzung der E-Mail-Adresse.")
     
     if st.button("Experiment abschließen", type="primary"):
         if email and not consent:
             st.stop()
     
         st.session_state.giveaway_email = email.strip() if email else None
-        st.success("Vielen Dank für Ihre Teilnahme!")
-
+        st.success("Vielen Dank für Deine Teilnahme!")
     # Leading back to Prolific
 #    st.markdown("---")
 #    st.link_button("Bitte kehre zu Prolific zurueck", "https://app.prolific.com/submissions/complete?cc=C1EF9RLL", type="primary")
