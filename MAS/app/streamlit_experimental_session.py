@@ -2086,7 +2086,26 @@ class StreamlitExperimentalSession:
                 self.session_data["giveaway_email"] = st.session_state.giveaway_email
             
             # Save session data
+            # --- Prepare study data (exclude giveaway email) ---
+            original_session_data = self.session_data
+            study_data = dict(self.session_data)
+            study_data.pop("giveaway_email", None)
+            
+            # Temporarily replace session_data for export
+            self.session_data = study_data
+            
+            # Save study data (JSON + CSV, without email)
             export_info = self.save_session_data()
+            
+            # Restore full session data in memory
+            self.session_data = original_session_data
+
+            # --- Save giveaway email separately ---
+            if "giveaway_email" in self.session_data and self.session_data["giveaway_email"]:
+                self.save_giveaway_email({
+                    "giveaway_email": self.session_data["giveaway_email"],
+                    "timestamp": datetime.now().isoformat()
+                })
             
             # Log session end with map summary
             if self.session_logger:
@@ -2151,8 +2170,30 @@ class StreamlitExperimentalSession:
         except Exception as e:
             st.error(f"Error saving session data: {e}")
             return {"error": str(e)}
-    
 
+
+    def save_giveaway_email(self, giveaway_data: Dict[str, str]) -> None:
+        """Save giveaway email separately from study data."""
+        try:
+            experimental_data_dir = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                "experimental_data"
+            )
+            os.makedirs(experimental_data_dir, exist_ok=True)
+    
+            file_path = os.path.join(experimental_data_dir, "giveaway_emails.csv")
+            file_exists = os.path.isfile(file_path)
+    
+            with open(file_path, "a", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=giveaway_data.keys())
+                if not file_exists:
+                    writer.writeheader()
+                writer.writerow(giveaway_data)
+    
+        except Exception as e:
+            logger.error(f"Error saving giveaway email: {e}")
+
+        
     def _save_session_to_database(self):
         """
         Converts the generated json file into the Session DTO and stores the session in 
