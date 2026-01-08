@@ -756,6 +756,7 @@ def render_summary_page():
         else:
             st.metric(label="Verhaeltnis Kanten/Knoten", value="k.A.")
 
+
     # Thank you message
     st.markdown("---")
     st.info("""
@@ -763,6 +764,36 @@ def render_summary_page():
 
     Danke fuer deinen wertvollen Beitrag zu unserer Forschung ueber KI-gestuetztes Lernen!
     """)
+    
+    #E-mailFeld für Gutscheinverlosung
+    st.markdown("---")
+    st.markdown("### 🎁 Freiwillige Teilnahme an der Gutscheinverlosung")
+    
+    st.markdown(
+        "Wenn Sie an der Gutscheinverlosung teilnehmen möchten, können Sie **freiwillig** "
+        "Ihre E-Mail-Adresse angeben. Die E-Mail-Adresse wird **getrennt von Ihren Studiendaten** "
+        "gespeichert und ausschließlich für die Verlosung verwendet."
+    )
+    
+    email = st.text_input(
+        "E-Mail-Adresse (optional)",
+        help="Optional – nur für die Gutscheinverlosung"
+    )
+    
+    consent = st.checkbox(
+        "Ich bin damit einverstanden, dass meine E-Mail-Adresse ausschließlich "
+        "für die Gutscheinverlosung verwendet wird."
+    )
+    
+    if email and not consent:
+        st.error("Bitte bestätigen Sie die Einwilligung zur Nutzung der E-Mail-Adresse.")
+    
+    if st.button("Experiment abschließen", type="primary"):
+        if email and not consent:
+            st.stop()
+    
+        st.session_state.giveaway_email = email.strip() if email else None
+        st.success("Vielen Dank für Ihre Teilnahme!")
 
     # Leading back to Prolific
 #    st.markdown("---")
