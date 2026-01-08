@@ -830,24 +830,6 @@ def render_summary_page():
                         mime="text/csv"
                     )
 
-# 🔴 DEBUG (nur zum Testen)
-st.write("DEBUG 1: Abschlussseite sichtbar")
-st.write("DEBUG 2: experiment_finished =",
-         st.session_state.get("experiment_finished", None))
-
-import os
-experimental_data_dir = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "experimental_data"
-)
-
-st.write("DEBUG 3: experimental_data_dir =", experimental_data_dir)
-st.write("DEBUG 4: dir exists =", os.path.exists(experimental_data_dir))
-
-if os.path.exists(experimental_data_dir):
-    files = os.listdir(experimental_data_dir)
-    st.write("DEBUG 5: files =", files)
-
     # Leading back to Prolific
 #    st.markdown("---")
 #    st.link_button("Bitte kehre zu Prolific zurueck", "https://app.prolific.com/submissions/complete?cc=C1EF9RLL", type="primary")
