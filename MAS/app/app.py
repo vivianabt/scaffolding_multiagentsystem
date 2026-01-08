@@ -511,9 +511,7 @@ def render_agent_acceptance_question():
 def render_map_adaption_question():
     """Render self-assessment of task difficulty."""
     st.header("🗺️ Schwierigkeitsgrad der Aufgabe")
-    st.markdown("---")
-
-    st.info("""Bitte bewerten Sie die Aufgabe:""")
+    st.markdown("Bitte bewerten Sie die Aufgabe:")
 
     with st.form("task_difficulty"):
         task_difficulty = st.radio(
