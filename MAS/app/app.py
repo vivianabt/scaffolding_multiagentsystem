@@ -770,9 +770,12 @@ def render_summary_page():
     st.markdown("### 🎁 Freiwillige Teilnahme an der Gutscheinverlosung")
     
     st.markdown(
-        "Wenn Sie an der Gutscheinverlosung teilnehmen möchten, können Sie **freiwillig** "
-        "Ihre E-Mail-Adresse angeben. Die E-Mail-Adresse wird **getrennt von Ihren Studiendaten** "
+        "Wenn du an der Gutscheinverlosung teilnehmen möchtest, kannst du **freiwillig** "
+        "deine E-Mail-Adresse angeben. Die E-Mail-Adresse wird **getrennt von deinen Studiendaten** "
         "gespeichert und ausschließlich für die Verlosung verwendet."
+
+        "Mit deiner Teilnahme hast du die Chance, einen von drei 15€ Amazon-Gutscheinen zu gewinnen."
+        "Ob du gewonnen hast wird dir per Mail mitgeteilt, sobald das Experiment abgeschlossen ist."
     )
     
     email = st.text_input(
@@ -786,14 +789,14 @@ def render_summary_page():
     )
     
     if email and not consent:
-        st.error("Bitte bestätigen Sie die Einwilligung zur Nutzung der E-Mail-Adresse.")
+        st.error("Bitte bestätige die Einwilligung zur Nutzung der E-Mail-Adresse.")
     
     if st.button("Experiment abschließen", type="primary"):
         if email and not consent:
             st.stop()
     
         st.session_state.giveaway_email = email.strip() if email else None
-        st.success("Vielen Dank für Ihre Teilnahme!")
+        st.success("Vielen Dank für Deine Teilnahme!")
 
     # Leading back to Prolific
 #    st.markdown("---")
