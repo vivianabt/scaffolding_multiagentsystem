@@ -795,9 +795,14 @@ def render_summary_page():
             st.stop()
     
         st.session_state.giveaway_email = email.strip() if email else None
+
+    # 🔴 DAS FEHLTE BISHER
+        st.session_state.experimental_session.finalize_session()
+            
         st.session_state.experiment_finished = True
         st.success("Vielen Dank für Deine Teilnahme!")
 
+    
     # 🔽 NUR anzeigen, wenn Experiment abgeschlossen ist
     if st.session_state.get("experiment_finished", False):
 
@@ -825,7 +830,23 @@ def render_summary_page():
                         mime="text/csv"
                     )
 
+# 🔴 DEBUG (nur zum Testen)
+st.write("DEBUG 1: Abschlussseite sichtbar")
+st.write("DEBUG 2: experiment_finished =",
+         st.session_state.get("experiment_finished", None))
 
+import os
+experimental_data_dir = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    "experimental_data"
+)
+
+st.write("DEBUG 3: experimental_data_dir =", experimental_data_dir)
+st.write("DEBUG 4: dir exists =", os.path.exists(experimental_data_dir))
+
+if os.path.exists(experimental_data_dir):
+    files = os.listdir(experimental_data_dir)
+    st.write("DEBUG 5: files =", files)
 
     # Leading back to Prolific
 #    st.markdown("---")
