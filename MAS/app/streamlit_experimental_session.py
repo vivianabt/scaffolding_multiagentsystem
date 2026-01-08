@@ -2080,6 +2080,10 @@ class StreamlitExperimentalSession:
             # Store domain knowledge (post-task)
             if "domain_knowledge" in st.session_state:
                 self.session_data["domain_knowledge"] = st.session_state.domain_knowledge
+
+            #Store Email for Giveaway
+            if "giveaway_email" in st.session_state and st.session_state.giveaway_email:
+                self.session_data["giveaway_email"] = st.session_state.giveaway_email
             
             # Save session data
             export_info = self.save_session_data()
