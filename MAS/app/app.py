@@ -802,33 +802,6 @@ def render_summary_page():
         st.session_state.experiment_finished = True
         st.success("Vielen Dank für Deine Teilnahme!")
 
-    
-    # 🔽 NUR anzeigen, wenn Experiment abgeschlossen ist
-    if st.session_state.get("experiment_finished", False):
-
-        # 🔧 TEMPORÄRER TEST-DOWNLOAD (nach dem Experiment wieder entfernen!)
-        import os
-    
-        experimental_data_dir = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-            "experimental_data"
-        )
-    
-        if os.path.exists(experimental_data_dir):
-            files = os.listdir(experimental_data_dir)
-            csv_files = [f for f in files if f.endswith(".csv")]
-    
-            if csv_files:
-                latest_csv = sorted(csv_files)[-1]
-                csv_path = os.path.join(experimental_data_dir, latest_csv)
-    
-                with open(csv_path, "rb") as f:
-                    st.download_button(
-                        "📥 CSV herunterladen (nur Test)",
-                        data=f,
-                        file_name=latest_csv,
-                        mime="text/csv"
-                    )
 
     # Leading back to Prolific
 #    st.markdown("---")
