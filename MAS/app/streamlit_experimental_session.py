@@ -2103,7 +2103,7 @@ class StreamlitExperimentalSession:
             # --- Save giveaway email separately ---
             if "giveaway_email" in self.session_data and self.session_data["giveaway_email"]:
                 self.save_giveaway_email({
-                    "giveaway_email": self.session_data["giveaway_email"],
+                    "email": self.session_data["giveaway_email"],
                     "timestamp": datetime.now().isoformat()
                 })
             
