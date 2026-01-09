@@ -796,6 +796,7 @@ def render_summary_page():
     
         st.session_state.giveaway_email = email.strip() if email else None
         st.success("Vielen Dank für Deine Teilnahme!")
+        
     # Leading back to Prolific
 #    st.markdown("---")
 #    st.link_button("Bitte kehre zu Prolific zurueck", "https://app.prolific.com/submissions/complete?cc=C1EF9RLL", type="primary")
