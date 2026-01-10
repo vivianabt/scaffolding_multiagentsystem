@@ -151,7 +151,7 @@ def render_mode_selection():
     - Deine Zeit wird zu Forschungszwecken erfasst
 
     ⚠️ **Wichtig:** Bitte alle Schritte der Reihe nach abschliessen. Daten werden nur erfasst, wenn alle Pflichtangaben gemacht wurden.
-    Deine sorgfaeltige Teilnahme sichert gueltige Forschungsdaten.
+    Deine sorgfaeltige Teilnahme sichert gueltige Forschungsdaten. Die besten 10 Prozent der Teilnehmenden erhalten einen Bonus.
     """)
 
     st.markdown("**Bereit, das Experiment zu starten?**")
@@ -201,7 +201,8 @@ def render_consent_form():
         Dauer: ca. **30 Minuten**.
 
         **Nutzen:**
-        Deine Teilnahme hilft, Lerntechnologien und KI-gestuetzte Lernhilfen weiterzuentwickeln.
+        Neben der Verguetung hilfst du, Lerntechnologien und KI-Lernhilfen zu verbessern.
+        Die besten 10 Prozent der Teilnehmenden erhalten einen Bonus nach Auswertung.
 
         **Risiken & Vertraulichkeit:**
         Es sind keine besonderen Risiken bekannt; ein Restrisiko fuer Vertraulichkeit besteht immer online.
@@ -441,8 +442,8 @@ def render_tutorial():
 
 def render_agent_acceptance_question():
     """Render agent acceptance question before questionnaires."""
-    st.header("🤖 Befragung")
-    st.markdown("Bitte bewerten Sie folgende Aussage.")
+    st.header("🤖 Agenten-Akzeptanz")
+    st.markdown("---")
 
     st.info("""
     Bevor es mit den letzten Frageboegen weitergeht, wollen wir wissen, wie du die Agenten erlebt hast.
@@ -570,46 +571,12 @@ def render_map_adaption_question():
             st.rerun()
 
 
-def render_domain_knowledge_questionnaire():
-    """Render domain knowledge / expertise questionnaire (post-task)."""
-
-    st.header("📝 Befragung")
-    st.markdown("Bitte beantworten Sie die folgende Frage.")
-
-    options = [
-        "Keine Erfahrung",
-        "Geringe Erfahrung",
-        "Mittlere Erfahrung",
-        "Hohe Erfahrung",
-        "Sehr hohe Erfahrung / Expertenwissen"
-    ]
-
-    with st.form("domain_knowledge"):
-        st.radio(
-            "Hatten Sie vor der Aufgabe bereits Erfahrungen mit dem Themenbereich?",
-            options=options,
-            index=None,
-            key="domain_knowledge"   # 🔑 WICHTIG
-        )
-
-        submitted = st.form_submit_button("Weiter", type="primary")
-
-        if submitted:
-            if st.session_state.domain_knowledge is None:
-                st.error("Bitte treffen Sie eine Auswahl.")
-                return
-
-            st.session_state.domain_knowledge_completed = True
-            st.rerun()
-
-
 def render_critical_ai_questionnaire():
     """Render measurement 3: critical stance towards AI."""
-    
-    st.markdown("<div id='top'></div>", unsafe_allow_html=True)
-    
-    st.header("🧠 Befragung")
-    st.markdown("Bitte bewerte die folgenden Aussagen.")
+    st.header("🧠 Kritischer Umgang mit KI")
+    st.markdown("---")
+
+    st.info("Bitte bewerte die folgenden Aussagen.")
 
     options = [
         "Stimme überhaupt nicht zu",
@@ -674,14 +641,161 @@ def render_critical_ai_questionnaire():
             st.rerun()
 
 
+def render_ai_reliance_questionnaire():
+    """Render measurement 4: AI reliance."""
+    st.header("📎 AI-reliance")
+    st.markdown("---")
+
+    st.info("Bitte geben Sie an, in welchem Ausmaß Sie sich auf KI verlassen, um die folgenden Tätigkeiten auszuführen.")
+
+    options = [
+        "Überhaupt nicht",
+        "Selten",
+        "Manchmal",
+        "Häufig",
+        "Sehr stark / Immer",
+    ]
+
+    items = [
+        "Antworten auf spezifische Fragen im Zusammenhang mit meinem Studium oder meiner Arbeit finden.",
+        "Entwürfe für meine (schriftlichen) Aufgaben erstellen.",
+        "Meine (schriftlichen) Aufgaben überarbeiten.",
+        "Unterstützung bei der Erledigung meiner Aufgaben erhalten.",
+        "Komplexe Konzepte verstehen.",
+        "Komplexe Texte oder Informationen zusammenfassen.",
+        "Rückmeldungen zu Lösungen meiner (schriftlichen) Aufgaben erhalten.",
+        "Übungsfragen oder Quizze zur Selbstüberprüfung oder Weiterbildung generieren.",
+        "Arbeits- oder Lernpläne zur Organisation meiner Aufgaben erstellen.",
+        "Fachliche oder analytische Probleme lösen (z. B. mathematische oder technische Aufgaben).",
+        "Coding- oder Programmieraufgaben bearbeiten.",
+        "Ideen für kreative Projekte generieren.",
+        "Aufgaben oder Texte vollständig von KI schreiben lassen.",
+    ]
+
+    with st.form("ai_reliance"):
+        responses = {}
+        for idx, statement in enumerate(items, 1):
+            st.markdown(f"**{statement}**")
+            answer = st.radio(
+                "Auswahlmöglichkeiten:",
+                options=options,
+                index=None,
+                key=f"ai_reliance_{idx}",
+            )
+            if answer:
+                responses[f"AIR{idx}"] = {"statement": statement, "response": answer}
+            st.markdown("---")
+
+        submitted = st.form_submit_button("Abschicken", type="primary")
+
+        if submitted:
+            if len(responses) < len(items):
+                st.error("Bitte beantworte alle Aussagen, bevor du absendest.")
+                return
+
+            if st.session_state.experimental_session:
+                payload = {
+                    "responses": responses,
+                    "timestamp": datetime.now().isoformat(),
+                    "participant_id": st.session_state.learner_profile.get("unique_id", "N/A")
+                    if st.session_state.learner_profile
+                    else "N/A",
+                    "participant_name": st.session_state.learner_profile.get("name", "Unknown")
+                    if st.session_state.learner_profile
+                    else "Unknown",
+                }
+
+                st.session_state.experimental_session.session_data["ai_reliance"] = payload
+                if st.session_state.experimental_session.session_logger:
+                    st.session_state.experimental_session.session_logger.log_event(
+                        event_type="ai_reliance_response",
+                        metadata=payload,
+                    )
+
+            st.session_state.ai_reliance_completed = True
+            st.success("✅ Danke! Weiter zur nächsten Befragung…")
+            st.rerun()
+
+
+def render_trust_in_ai_questionnaire():
+    """Render measurement 5: trust in AI."""
+    st.header("🔒 Vertrauen in KI")
+    st.markdown("---")
+
+    st.info("Bitte bewerte die folgenden Aussagen.")
+
+    options = [
+        "Überhaupt nicht",
+        "Kaum",
+        "Wenig",
+        "Neutral",
+        "Stark",
+        "Sehr stark",
+        "Extrem",
+    ]
+
+    items = [
+        "Das System ist irreführend.",
+        "Das System verhält sich hinterhältig.",
+        "Ich bin misstrauisch gegenüber den Absichten, Handlungen oder Ergebnissen des Systems.",
+        "Ich bin vorsichtig im Umgang mit dem System.",
+        "Die Handlungen des Systems könnten schädliche oder verletzende Folgen haben.",
+        "Ich bin vom System überzeugt / sicher, dass es zuverlässig funktioniert.",
+        "Das System bietet Sicherheit.",
+        "Das System hat Integrität.",
+        "Das System ist verlässlich (es erfüllt verlässlich seine Aufgaben).",
+        "Das System ist zuverlässig (es in funktioniert in kritischen Momenten).",
+        "Ich kann dem System vertrauen.",
+        "Ich bin mit dem System vertraut.",
+    ]
+
+    with st.form("trust_in_ai"):
+        responses = {}
+        for idx, statement in enumerate(items, 1):
+            st.markdown(f"**{statement}**")
+            answer = st.radio(
+                "Auswahlmöglichkeiten:",
+                options=options,
+                index=None,
+                key=f"trust_in_ai_{idx}",
+            )
+            if answer:
+                responses[f"TAI{idx}"] = {"statement": statement, "response": answer}
+            st.markdown("---")
+
+        submitted = st.form_submit_button("Abschicken", type="primary")
+
+        if submitted:
+            if len(responses) < len(items):
+                st.error("Bitte beantworte alle Aussagen, bevor du absendest.")
+                return
+
+            if st.session_state.experimental_session:
+                payload = {
+                    "responses": responses,
+                    "timestamp": datetime.now().isoformat(),
+                    "participant_id": st.session_state.learner_profile.get("unique_id", "N/A")
+                    if st.session_state.learner_profile
+                    else "N/A",
+                    "participant_name": st.session_state.learner_profile.get("name", "Unknown")
+                    if st.session_state.learner_profile
+                    else "Unknown",
+                }
+
+                st.session_state.experimental_session.session_data["trust_in_ai"] = payload
+                if st.session_state.experimental_session.session_logger:
+                    st.session_state.experimental_session.session_logger.log_event(
+                        event_type="trust_in_ai_response",
+                        metadata=payload,
+                    )
+
+            st.session_state.trust_in_ai_completed = True
+            st.success("✅ Danke! Du bist fertig.")
+            st.rerun()
+
+
 def render_summary_page():
     """Render session summary page."""
-    
-    # 🔑 Scroll beim ersten Betreten der Endseite
-    if not st.session_state.get("_summary_scrolled", False):
-        st.session_state.scroll_to_top = True
-        st.session_state._summary_scrolled = True
-        
     st.header("Concept-Mapping-Experiment")
     st.markdown("---")
     st.write("Danke, dass du am Concept-Mapping-Experiment teilgenommen hast!")
@@ -770,40 +884,6 @@ def render_summary_page():
     Danke fuer deinen wertvollen Beitrag zu unserer Forschung ueber KI-gestuetztes Lernen!
     """)
 
-    #E-mailFeld für Gutscheinverlosung
-    st.markdown("---")
-    st.markdown("### 🎁 Freiwillige Teilnahme an der Gutscheinverlosung")
-    
-    st.markdown(
-        "Wenn du an der Gutscheinverlosung teilnehmen möchtest, kannst du **freiwillig** "
-        "deine E-Mail-Adresse angeben. Die E-Mail-Adresse wird **getrennt von deinen Studiendaten** "
-        "gespeichert und ausschließlich für die Verlosung verwendet.")
-
-    st.markdown(
-        "Mit deiner Teilnahme hast du die Chance, einen von drei 15€ Amazon-Gutscheinen zu gewinnen."
-        "Ob du gewonnen hast wird dir per Mail mitgeteilt, sobald das Experiment abgeschlossen ist."
-    )
-    
-    email = st.text_input(
-        "E-Mail-Adresse (optional)",
-        help="Optional – nur für die Gutscheinverlosung"
-    )
-    
-    consent = st.checkbox(
-        "Ich bin damit einverstanden, dass meine E-Mail-Adresse ausschließlich "
-        "für die Gutscheinverlosung verwendet wird."
-    )
-    
-    if email and not consent:
-        st.error("Bitte bestätige die Einwilligung zur Nutzung der E-Mail-Adresse.")
-    
-    if st.button("Experiment abschließen", type="primary"):
-        if email and not consent:
-            st.stop()
-    
-        st.session_state.giveaway_email = email.strip() if email else None
-        st.success("Vielen Dank für Deine Teilnahme!")
-        
     # Leading back to Prolific
 #    st.markdown("---")
 #    st.link_button("Bitte kehre zu Prolific zurueck", "https://app.prolific.com/submissions/complete?cc=C1EF9RLL", type="primary")
@@ -1538,13 +1618,6 @@ def main():
              st.components.v1.html(scroll_js)
              return
 
-        # Domain knowledge (after task, before post-questionnaires)
-        if (st.session_state.mode == "experimental" and
-                not st.session_state.get('domain_knowledge_completed', False)):
-            render_domain_knowledge_questionnaire()
-            return
-
-        
         # CLT questionnaire (experimental mode only, after post-knowledge questionnaire)
         if (st.session_state.mode == "experimental" and
                 st.session_state.get('post_questionnaire_completed', False) and
@@ -1559,6 +1632,20 @@ def main():
                 st.session_state.get('clt_completed', False) and
                 not st.session_state.get('critical_ai_completed', False)):
             render_critical_ai_questionnaire()
+            return
+
+        # 4) AI reliance (after critical stance)
+        if (st.session_state.mode == "experimental" and
+                st.session_state.get('critical_ai_completed', False) and
+                not st.session_state.get('ai_reliance_completed', False)):
+            render_ai_reliance_questionnaire()
+            return
+
+        # 5) Trust in AI (after AI reliance)
+        if (st.session_state.mode == "experimental" and
+                st.session_state.get('ai_reliance_completed', False) and
+                not st.session_state.get('trust_in_ai_completed', False)):
+            render_trust_in_ai_questionnaire()
             return
 
         # Show summary page after all questionnaires are completed (or immediately in demo mode)
