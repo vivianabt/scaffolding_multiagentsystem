@@ -1525,6 +1525,12 @@ def main():
             render_map_adaption_question()
             return
 
+        # Domain knowledge (after task, before post-questionnaires)
+        if (st.session_state.mode == "experimental" and
+                not st.session_state.get('domain_knowledge_completed', False)):
+            render_domain_knowledge_questionnaire()
+            return
+        
         # Post-knowledge questionnaire (experimental mode only, after map adaptation - measure learning gains immediately)
         if (st.session_state.mode == "experimental" and
              st.session_state.get('task_difficulty_completed', False) and
