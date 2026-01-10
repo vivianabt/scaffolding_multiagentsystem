@@ -603,8 +603,6 @@ def render_domain_knowledge_questionnaire():
 
 def render_critical_ai_questionnaire():
     """Render measurement 3: critical stance towards AI."""
-
-    st.markdown("<div id='top'></div>", unsafe_allow_html=True)
     
     st.header("🧠 Befragung")
     st.markdown("Bitte bewerte die folgenden Aussagen.")
@@ -668,6 +666,10 @@ def render_critical_ai_questionnaire():
                     )
 
             st.session_state.critical_ai_completed = True
+
+            # 🔑 DAS ist die entscheidende Zeile
+            st.session_state.scroll_to_top = True
+            
             st.success("✅ Danke! Weiter zur nächsten Befragung…")
             st.rerun()
 
