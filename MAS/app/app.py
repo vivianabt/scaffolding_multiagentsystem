@@ -676,6 +676,12 @@ def render_critical_ai_questionnaire():
 
 def render_summary_page():
     """Render session summary page."""
+
+    # 🔑 Scroll beim ersten Betreten der Endseite
+    if not st.session_state.get("_summary_scrolled", False):
+        st.session_state.scroll_to_top = True
+        st.session_state._summary_scrolled = True
+    
     st.header("Concept-Mapping-Experiment")
     st.markdown("---")
     st.write("Danke, dass du am Concept-Mapping-Experiment teilgenommen hast!")
