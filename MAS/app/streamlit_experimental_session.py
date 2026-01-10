@@ -2079,6 +2079,36 @@ class StreamlitExperimentalSession:
                 "participant_id": self.session_data.get("learner_profile", {}).get("unique_id", "N/A"),
                 "participant_name": self.session_data.get("learner_profile", {}).get("name", "Unknown")
             }
+
+            # Store domain knowledge (post-task questionnaire)
+            if "domain_knowledge" in st.session_state:
+                self.session_data["domain_knowledge"] = st.session_state.domain_knowledge
+
+            #Store Email for Giveaway
+            if "giveaway_email" in st.session_state and st.session_state.giveaway_email:
+                self.session_data["giveaway_email"] = st.session_state.giveaway_email
+            
+            # Save session data
+            # --- Prepare study data (exclude giveaway email) ---
+            original_session_data = self.session_data
+            study_data = dict(self.session_data)
+            study_data.pop("giveaway_email", None)
+            
+            # Temporarily replace session_data for export
+            self.session_data = study_data
+            
+            # Save study data (JSON + CSV, without email)
+            export_info = self.save_session_data()
+            
+            # Restore full session data in memory
+            self.session_data = original_session_data
+
+            # --- Save giveaway email separately ---
+            if "giveaway_email" in self.session_data and self.session_data["giveaway_email"]:
+                self.save_giveaway_email({
+                    "email": self.session_data["giveaway_email"],
+                    "timestamp": datetime.now().isoformat()
+                })
             
             # Save session data
             export_info = self.save_session_data()
