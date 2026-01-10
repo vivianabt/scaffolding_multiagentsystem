@@ -862,102 +862,102 @@ class StreamlitExperimentalSession:
         
         with st.form("learner_profile_form"):
             
-                name = st.text_input("Alias*", help="Choose an alias or identifier")
-                age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
-                gender = st.selectbox(
-                    "Gender*",
-                    options=gender_options,
-                    help="Select your gender"
-                )
-                nationality = st.selectbox(
-                    "Nationality*", 
-                    options=nationality_options,
-                    help="Select your nationality"
-                )
+            name = st.text_input("Alias*", help="Choose an alias or identifier")
+            age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
+            gender = st.selectbox(
+                "Gender*",
+                options=gender_options,
+                help="Select your gender"
+            )
+            nationality = st.selectbox(
+                "Nationality*", 
+                options=nationality_options,
+                help="Select your nationality"
+            )
 
-                education_level = st.selectbox(
-                "Höchster Bildungsabschluss*",
+            education_level = st.selectbox(
+            "Höchster Bildungsabschluss*",
+            [
+                "Please select...",
+                "Kein Schulabschluss",
+                "Hauptschulabschluss",
+                "Realschulabschluss",
+                "Abitur",
+                "Bachelor",
+                "Master",
+                "Promotion",
+                "Sonstiges"
+                ]
+            )
+        
+            activity = st.multiselect(
+                "Was trifft aktuell auf Sie zu? (Mehrfachauswahl möglich)*",
                 [
-                    "Please select...",
-                    "Kein Schulabschluss",
-                    "Hauptschulabschluss",
-                    "Realschulabschluss",
-                    "Abitur",
-                    "Bachelor",
-                    "Master",
-                    "Promotion",
+                    "Ich studiere",
+                    "Ich bin erwerbstätig",
                     "Sonstiges"
-                    ]
+                ]
+            )
+        
+            study_program = None
+            study_semester = None
+        
+            if "Ich studiere" in activity:
+                study_program = st.text_input(
+                    "Studiengang",
+                    help="Bitte geben Sie Ihren Studiengang an"
                 )
-            
-                activity = st.multiselect(
-                    "Was trifft aktuell auf Sie zu? (Mehrfachauswahl möglich)*",
-                    [
-                        "Ich studiere",
-                        "Ich bin erwerbstätig",
-                        "Sonstiges"
-                    ]
+        
+                study_semester = st.number_input(
+                    "Aktuelles Studiensemester",
+                    min_value=1,
+                    step=1
                 )
-            
-                study_program = None
-                study_semester = None
-            
-                if "Ich studiere" in activity:
-                    study_program = st.text_input(
-                        "Studiengang",
-                        help="Bitte geben Sie Ihren Studiengang an"
-                    )
-            
-                    study_semester = st.number_input(
-                        "Aktuelles Studiensemester",
-                        min_value=1,
-                        step=1
-                    )
-            
-                background = st.selectbox(
-                    "Nutzung Künstlicher Intelligenz*", 
-                    options=education_options,
-                    help="Wann nutzen Sie Künstliche Intelligenz?"
-                )
-            
-                # confidence = st.selectbox(
-                #     "Confidence in Concept Mapping*",
-                #     options=["1 - Very Low", "2 - Low", "3 - Moderate", "4 - High", "5 - Very High"],
-                #     help="How confident do you feel about concept mapping?"
-                # )
+        
+            background = st.selectbox(
+                "Nutzung Künstlicher Intelligenz*", 
+                options=education_options,
+                help="Wann nutzen Sie Künstliche Intelligenz?"
+            )
+        
+            # confidence = st.selectbox(
+            #     "Confidence in Concept Mapping*",
+            #     options=["1 - Very Low", "2 - Low", "3 - Moderate", "4 - High", "5 - Very High"],
+            #     help="How confident do you feel about concept mapping?"
+            # )
 
-                confidencechat = st.selectbox(
-                    "Sicherheit in der Interaktion mit KI*",
-                    options=[
-                        "Ich habe noch nie von Künstlicher Intelligenz (KI) gehört.",
-                        "Ich habe von Künstlicher Intelligenz (KI) gehört, aber keine eigenen Erfahrungen damit.",
-                        "Ich habe grundlegende Erfahrungen mit der Nutzung von KI-Anwendungen oder -Tools",
-                        "Ich habe umfangreiche praktische Erfahrungen im Umgang mit KI.",
-                        "Ich habe sehr umfangreiche Erfahrungen in der KI-Forschung und/oder -Entwicklung.",
-                    ],
-                    help="Wie vertraut sind Sie im Umgang mit KI?",
-                )
-                # # Learning factors that could affect outcome
-                # st.markdown("**Learning Factors**")
-                # st.caption("Please select any factors that may affect your learning (optional):")
-                
-                # learning_factors = []
-                # if st.checkbox("ADHD"):
-                #     learning_factors.append("ADHD")
-                # if st.checkbox("AuDHD"):
-                #     learning_factors.append("AuDHD")
-                # if st.checkbox("Autism Spectrum Disorder"):
-                #     learning_factors.append("Autism Spectrum Disorder")
-                # if st.checkbox("Visual Processing Disorder"):
-                #     learning_factors.append("Visual Processing Disorder")
-                # if st.checkbox("Dyslexia"):
-                #     learning_factors.append("Dyslexia")
-                # if st.checkbox("Dyscalculia"):
-                #     learning_factors.append("Dyscalculia")
-                
-                # other_factors = st.text_input("Other factors (please specify)", help="Any other learning factors not listed above")
-                # if other_factors:
-                #     learning_factors.append(f"Other: {other_factors}")
+            confidencechat = st.selectbox(
+                "Sicherheit in der Interaktion mit KI*",
+                options=[
+                    "Ich habe noch nie von Künstlicher Intelligenz (KI) gehört.",
+                    "Ich habe von Künstlicher Intelligenz (KI) gehört, aber keine eigenen Erfahrungen damit.",
+                    "Ich habe grundlegende Erfahrungen mit der Nutzung von KI-Anwendungen oder -Tools",
+                    "Ich habe umfangreiche praktische Erfahrungen im Umgang mit KI.",
+                    "Ich habe sehr umfangreiche Erfahrungen in der KI-Forschung und/oder -Entwicklung.",
+                ],
+                help="Wie vertraut sind Sie im Umgang mit KI?",
+            )
+            # # Learning factors that could affect outcome
+            # st.markdown("**Learning Factors**")
+            # st.caption("Please select any factors that may affect your learning (optional):")
+            
+            # learning_factors = []
+            # if st.checkbox("ADHD"):
+            #     learning_factors.append("ADHD")
+            # if st.checkbox("AuDHD"):
+            #     learning_factors.append("AuDHD")
+            # if st.checkbox("Autism Spectrum Disorder"):
+            #     learning_factors.append("Autism Spectrum Disorder")
+            # if st.checkbox("Visual Processing Disorder"):
+            #     learning_factors.append("Visual Processing Disorder")
+            # if st.checkbox("Dyslexia"):
+            #     learning_factors.append("Dyslexia")
+            # if st.checkbox("Dyscalculia"):
+            #     learning_factors.append("Dyscalculia")
+            
+            # other_factors = st.text_input("Other factors (please specify)", help="Any other learning factors not listed above")
+            # if other_factors:
+            #     learning_factors.append(f"Other: {other_factors}")
             
             submitted = st.form_submit_button("Create Profile", type="primary")
             
