@@ -676,6 +676,12 @@ def render_critical_ai_questionnaire():
 
 def render_summary_page():
     """Render session summary page."""
+    
+    # 🔑 Scroll beim ersten Betreten der Endseite
+    if not st.session_state.get("_summary_scrolled", False):
+        st.session_state.scroll_to_top = True
+        st.session_state._summary_scrolled = True
+        
     st.header("Concept-Mapping-Experiment")
     st.markdown("---")
     st.write("Danke, dass du am Concept-Mapping-Experiment teilgenommen hast!")
@@ -771,8 +777,9 @@ def render_summary_page():
     st.markdown(
         "Wenn du an der Gutscheinverlosung teilnehmen möchtest, kannst du **freiwillig** "
         "deine E-Mail-Adresse angeben. Die E-Mail-Adresse wird **getrennt von deinen Studiendaten** "
-        "gespeichert und ausschließlich für die Verlosung verwendet."
+        "gespeichert und ausschließlich für die Verlosung verwendet.")
 
+    st.markdown(
         "Mit deiner Teilnahme hast du die Chance, einen von drei 15€ Amazon-Gutscheinen zu gewinnen."
         "Ob du gewonnen hast wird dir per Mail mitgeteilt, sobald das Experiment abgeschlossen ist."
     )
