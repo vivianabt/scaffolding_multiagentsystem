@@ -1550,19 +1550,6 @@ def main():
             render_critical_ai_questionnaire()
             return
 
-        # 4) AI reliance (after critical stance)
-        if (st.session_state.mode == "experimental" and
-                st.session_state.get('critical_ai_completed', False) and
-                not st.session_state.get('ai_reliance_completed', False)):
-            render_ai_reliance_questionnaire()
-            return
-
-        # 5) Trust in AI (after AI reliance)
-        if (st.session_state.mode == "experimental" and
-                st.session_state.get('ai_reliance_completed', False) and
-                not st.session_state.get('trust_in_ai_completed', False)):
-            render_trust_in_ai_questionnaire()
-            return
 
         # Show summary page after all questionnaires are completed (or immediately in demo mode)
         render_summary_page()
