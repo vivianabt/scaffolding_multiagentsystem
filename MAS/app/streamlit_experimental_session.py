@@ -864,11 +864,7 @@ class StreamlitExperimentalSession:
 
             name = st.text_input("Alias*", help="Choose an alias or identifier")
         
-            age = st.number_input(
-                "Age*",
-                step=1,
-                help="Your age"
-            )
+            age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
         
             gender = st.selectbox(
                 "Gender*",
