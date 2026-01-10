@@ -1372,49 +1372,6 @@ class StreamlitExperimentalSession:
             return "Session abgeschlossen. Vielen Dank fur deine Teilnahme!"
         
         agent_type = self.session_data["agent_sequence"][agent_index]
-
-        # 🔒 HARD EXIT: Neutral agent must NEVER scaffold
-        if agent_type == "neutral":
-            try:
-                from MAS.agents.neutral_agent import NeutralAgent
-            except ImportError:
-                from agents.neutral_agent import NeutralAgent
-        
-            neutral_agent = NeutralAgent()
-        
-            internal_format = {"concepts": [], "relationships": []}
-            if concept_map_data is not None:
-                try:
-                    internal_format = self.convert_streamlit_to_internal_format(concept_map_data)
-                except Exception:
-                    pass
-        
-            response = neutral_agent.generate_response(
-                user_message=user_response,
-                concept_map=internal_format,
-                context={
-                    "round_number": roundn,
-                    "conversation_turn": conversation_turn
-                }
-            )
-        
-            if conversation_turn > 0:
-                response = self._clamp_followup_response(response)
-        
-            # Optional Logging
-            if self.session_logger:
-                self.session_logger.log_agent_response(
-                    agent_type="neutral",
-                    response_text=response,
-                    metadata={
-                        "round_number": roundn,
-                        "conversation_turn": conversation_turn,
-                        "forced_neutral": True
-                    }
-                )
-        
-            return response
-
         
         # Apply pattern detection to ALL agents including neutral agent
         if user_response is not None and agent_type != "neutral":
@@ -1460,6 +1417,51 @@ class StreamlitExperimentalSession:
                         )
                     return pattern_response
         
+        # Handle neutral agent - ALWAYS route to neutral agent, bypass pattern detection for domain questions
+        if agent_type == "neutral":
+            try:
+                # Import and use NeutralAgent for ALL responses
+                from MAS.agents.neutral_agent import NeutralAgent
+            except ImportError:
+                from agents.neutral_agent import NeutralAgent
+            
+            neutral_agent = NeutralAgent()
+            
+            # Convert concept map data to internal format for neutral agent
+            internal_format = {"concepts": [], "relationships": []}
+            if concept_map_data is not None:
+                try:
+                    internal_format = self.convert_streamlit_to_internal_format(concept_map_data)
+                except Exception as e:
+                    logger.warning(f"Failed to convert concept map for neutral agent: {e}")
+            
+            # CRITICAL FIX: Always use neutral agent for ALL responses, including domain questions
+            neutral_response = neutral_agent.generate_response(
+                user_message=user_response,
+                concept_map=internal_format,
+                context={"round_number": roundn, "conversation_turn": conversation_turn}
+            )
+            
+            # Apply post-filter for follow-ups (conversation_turn > 0)
+            if conversation_turn > 0:
+                neutral_response = self._clamp_followup_response(neutral_response)
+            
+            # Log neutral response
+            if self.session_logger:
+                self.session_logger.log_agent_response(
+                    agent_type=agent_type,
+                    response_text=neutral_response,
+                    metadata={
+                        "round_number": roundn,
+                        "conversation_turn": conversation_turn,
+                        "response_type": "neutral_direct",
+                        "experimental_condition": self.session_data.get("experimental_condition", "unknown"),
+                        "concept_map_nodes": len(internal_format.get("concepts", [])),
+                        "concept_map_edges": len(internal_format.get("relationships", []))
+                    }
+                )
+            
+            return neutral_response
         
         # Demo responses fallback
         demo_responses = {
