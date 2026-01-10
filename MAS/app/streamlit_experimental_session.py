@@ -2102,6 +2102,9 @@ class StreamlitExperimentalSession:
                     "email": self.session_data["giveaway_email"],
                     "timestamp": datetime.now().isoformat()
                 })
+
+            # Save session data
+            export_info = self.save_session_data()
             
             # Log session end with map summary
             if self.session_logger:
