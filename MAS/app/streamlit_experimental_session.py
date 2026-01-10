@@ -369,13 +369,13 @@ class StreamlitExperimentalSession:
     def render_clt_questionnaire(self):
         """Render Cognitive Load Theory questionnaire."""
         import streamlit as st
+
+        st.markdown("<div id='top'></div>", unsafe_allow_html=True)
         
-        st.header("📊 Erhebung der kognitiven Belastung")
-        st.markdown("---")
+        st.header("📊 Befragung")
+        st.markdown("Bitte bewerte die folgenden Aussagen zur soeben abgeschlossenen Lernaufgabe.")
         
         st.info("""
-        Das ist der letzte Fragebogen. Bitte bewerte die folgenden Aussagen zur soeben abgeschlossenen Lernaufgabe.
-        
         Waehle fur jede Aussage eine Bewertung von 1 (trifft gar nicht zu) bis 9 (trifft voll zu).
         """)
         
@@ -847,6 +847,8 @@ class StreamlitExperimentalSession:
             "Im Alltag",
             "Im Studium",
             "An der Arbeit",
+            "In mehreren Bereichen (z. B. Studium und Arbeit)",
+            "In allen genannten Bereichen",
             "Nie"
         ]
         
@@ -859,9 +861,7 @@ class StreamlitExperimentalSession:
         ]
         
         with st.form("learner_profile_form"):
-            col1, col2 = st.columns(2)
             
-            with col1:
                 name = st.text_input("Alias*", help="Choose an alias or identifier")
                 age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
                 gender = st.selectbox(
@@ -874,13 +874,52 @@ class StreamlitExperimentalSession:
                     options=nationality_options,
                     help="Select your nationality"
                 )
+
+                education_level = st.selectbox(
+                "Höchster Bildungsabschluss*",
+                [
+                    "Please select...",
+                    "Kein Schulabschluss",
+                    "Hauptschulabschluss",
+                    "Realschulabschluss",
+                    "Abitur",
+                    "Bachelor",
+                    "Master",
+                    "Promotion",
+                    "Sonstiges"
+                    ]
+                )
+            
+                activity = st.multiselect(
+                    "Was trifft aktuell auf Sie zu? (Mehrfachauswahl möglich)*",
+                    [
+                        "Ich studiere",
+                        "Ich bin erwerbstätig",
+                        "Sonstiges"
+                    ]
+                )
+            
+                study_program = None
+                study_semester = None
+            
+                if "Ich studiere" in activity:
+                    study_program = st.text_input(
+                        "Studiengang",
+                        help="Bitte geben Sie Ihren Studiengang an"
+                    )
+            
+                    study_semester = st.number_input(
+                        "Aktuelles Studiensemester",
+                        min_value=1,
+                        step=1
+                    )
+            
                 background = st.selectbox(
                     "Nutzung Künstlicher Intelligenz*", 
                     options=education_options,
                     help="Wann nutzen Sie Künstliche Intelligenz?"
                 )
             
-            with col2:
                 # confidence = st.selectbox(
                 #     "Confidence in Concept Mapping*",
                 #     options=["1 - Very Low", "2 - Low", "3 - Moderate", "4 - High", "5 - Very High"],
@@ -925,8 +964,21 @@ class StreamlitExperimentalSession:
             if submitted:
                 # Validate required fields
                 # if not all([name, age, gender, nationality, background, confidence, confidencechat]):
-                if not all([name, age, gender, nationality, background, confidencechat]):
-                    st.error("Please fill in all required fields marked with *")
+                if not all([
+                    name,
+                    age,
+                    gender,
+                    nationality,
+                    education_level != "Please select...",
+                    activity,
+                    background != "Please select...",
+                    confidencechat
+                ]):
+                    st.error("Bitte füllen Sie alle Pflichtfelder aus.")
+                    return None
+
+                if "Ich studiere" in activity and (not study_program or not study_semester):
+                    st.error("Bitte geben Sie Studiengang und Studiensemester an.")
                     return None
                 
                 # Validate dropdown selections (ensure not default values)
@@ -956,6 +1008,10 @@ class StreamlitExperimentalSession:
                     "gender": gender.strip(),
                     "nationality": nationality.strip(),
                     "background": background.strip(),
+                    "education_level": education_level,
+                    "activity": activity,
+                    "study_program": study_program,
+                    "study_semester": study_semester,
                     # "confidence": confidence,
                     "confidencechat": confidencechat,
 #                    "learning_factors": learning_factors,
@@ -2092,6 +2148,28 @@ class StreamlitExperimentalSession:
             return {"error": str(e)}
     
 
+    def save_giveaway_email(self, giveaway_data: Dict[str, str]) -> None:
+        """Save giveaway email separately from study data."""
+        try:
+            experimental_data_dir = os.path.join(
+                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                "experimental_data"
+            )
+            os.makedirs(experimental_data_dir, exist_ok=True)
+    
+            file_path = os.path.join(experimental_data_dir, "giveaway_emails.csv")
+            file_exists = os.path.isfile(file_path)
+    
+            with open(file_path, "a", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=giveaway_data.keys())
+                if not file_exists:
+                    writer.writeheader()
+                writer.writerow(giveaway_data)
+    
+        except Exception as e:
+            logger.error(f"Error saving giveaway email: {e}")
+
+    
     def _save_session_to_database(self):
         """
         Converts the generated json file into the Session DTO and stores the session in 
