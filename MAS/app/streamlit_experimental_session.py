@@ -42,12 +42,12 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-# Einzelne Experimentalbedingung mit fixer Sequenz (keine Randomisierung/Kontrollgruppe)
-EXPERIMENTAL_CONDITIONS = ['EG_SEQ']
+# Einzelne Experimentalbedingung: Neutral-Only (keine Scaffolding-Intervention)
+EXPERIMENTAL_CONDITIONS = ['CG_NEUTRAL']
 
-# Feste Agenten-Sequenz fuer alle Teilnehmenden
+# Feste Agenten-Sequenz fuer alle Teilnehmenden (neutral in allen 4 Agenten-Runden)
 AGENT_SEQUENCES = {
-    'EG_SEQ': ["metacognitive_scaffolding", "strategic_scaffolding", "procedural_scaffolding", "conceptual_scaffolding"]
+    'CG_NEUTRAL': ["neutral", "neutral", "neutral", "neutral"]
 }
 
 
