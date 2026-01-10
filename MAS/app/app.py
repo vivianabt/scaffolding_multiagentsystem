@@ -603,21 +603,6 @@ def render_domain_knowledge_questionnaire():
 
 def render_critical_ai_questionnaire():
     """Render measurement 3: critical stance towards AI."""
-
-    # 🔝 harter Scroll-Anker
-    st.markdown("<div id='top'></div>", unsafe_allow_html=True)
-    st.components.v1.html(
-        """
-        <script>
-            const top = parent.document.getElementById("top");
-            if (top) {
-                top.scrollIntoView({behavior: "instant"});
-            }
-        </script>
-        """,
-        height=0,
-    )
-
     
     st.header("🧠 Befragung")
     st.markdown("Bitte bewerte die folgenden Aussagen.")
@@ -685,7 +670,7 @@ def render_critical_ai_questionnaire():
             # 🔑 DAS ist die entscheidende Zeile
             st.session_state.scroll_to_top = True
             
-            st.success("✅ Danke! Weiter zur nächsten Befragung…")
+            st.success("✅ Danke!")
             st.rerun()
 
 
