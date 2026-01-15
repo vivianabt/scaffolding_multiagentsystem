@@ -165,11 +165,14 @@ class MDBService:
         self._add_insertion_timestamp(session_data)
         self._sessions.update_one(
             {"session_id": session_data["session_id"]},
-            {"$set": session_data},
+            {
+                "$set": session_data,
+                "$setOnInsert": {"created_at": datetime.utcnow()}
+            },
             upsert=True
         )
 
-    
+
 
     def get_latest_session(self) -> Optional[Dict[Any, Any]]:
         """
