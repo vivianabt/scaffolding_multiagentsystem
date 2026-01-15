@@ -163,7 +163,12 @@ class MDBService:
                 raise MissingIndexException(f"Session data is missing required index key '{key}'")
         
         self._add_insertion_timestamp(session_data)
-        self._sessions.insert_one(session_data)
+        self._sessions.update_one(
+            {"session_id": session_data["session_id"]},
+            {"$set": session_data},
+            upsert=True
+        )
+
     
 
     def get_latest_session(self) -> Optional[Dict[Any, Any]]:
