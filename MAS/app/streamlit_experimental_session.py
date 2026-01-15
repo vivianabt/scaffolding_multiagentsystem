@@ -114,6 +114,11 @@ class StreamlitExperimentalSession:
                 try: 
                     self.db_service = MDBService()
                     logger.info("    🗃️ Connection to the database established successfully")
+
+                    # 🔍 DEBUG: Zeig mir, wohin wir wirklich verbunden sind
+                    st.write("Mongo DB Name:", self.db_service._db.name)
+                    st.write("Collections:", self.db_service._db.list_collection_names())
+                
                 except DatabaseConnectionException as e:
                     logger.error("    ❌🗃️ Could not establish the connection to the database!")
                     st.error(f"Failed to connect to the database: {e}")
