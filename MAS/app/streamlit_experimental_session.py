@@ -73,66 +73,58 @@ class StreamlitExperimentalSession:
         self.mermaid_parser = MermaidParser()
 
     def initialize_system(self, mode: str, participant_id: Optional[str] = None):
-    """Initialize the MAS system with the specified mode."""
-    try:
-        self.session_data["mode"] = mode
-        
-        # Initialize system
-        config_path = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-            "config.json"
-        )
-        self.system = MultiAgentScaffoldingSystem(
-            config_path=config_path,
-            mode=mode,
-            participant_id=participant_id or f"participant_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
-        )
+        """Initialize the MAS system with the specified mode."""
+        try:
+            self.session_data["mode"] = mode
+            
+            # Initialize system
+            config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config.json")
+            self.system = MultiAgentScaffoldingSystem(
+                config_path=config_path,
+                mode=mode,
+                participant_id=participant_id or f"participant_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            )
 
-        # Initialize AI manager for experimental mode
-        if mode == "experimental":
-            try:
-                ai_manager_config = self.system.config.get("ai_manager", {})
-                self.ai_manager = AIManager(ai_manager_config)
+            # Initialize AI manager for experimental mode
+            if mode == "experimental":
+                try:
+                    ai_manager_config = self.system.config.get("ai_manager", {})
+                    self.ai_manager = AIManager(ai_manager_config)
+                    
+                    # Initialize session logger
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    self.session_logger = SessionLogger(
+                        log_dir="MAS/logs", 
+                        session_id=f"streamlit_session_{timestamp}"
+                    )
+                    
+                    # Log session start
+                    self.session_logger.log_session_start({
+                        "mode": mode,
+                        "participant_id": participant_id,
+                        "interface": "streamlit"
+                    })
+                    
+                except Exception as e:
+                    st.error(f"Failed to initialize OpenAI integration: {e}")
+                    self.demo_mode_fallback()
+                    self.ai_manager = None
+                    self.session_logger = None
+                
+                try: 
+                    self.db_service = MDBService()
+                    logger.info("    🗃️ Connection to the database established successfully")
+                except DatabaseConnectionException as e:
+                    logger.error("    ❌🗃️ Could not establish the connection to the database!")
+                    st.error(f"Failed to connect to the database: {e}")
+                    self.demo_mode_fallback()
+                    self.db_service = None
 
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                self.session_logger = SessionLogger(
-                    log_dir="MAS/logs",
-                    session_id=f"streamlit_session_{timestamp}"
-                )
-
-                self.session_logger.log_session_start({
-                    "mode": mode,
-                    "participant_id": participant_id,
-                    "interface": "streamlit"
-                })
-
-            except Exception as e:
-                st.error(f"Failed to initialize OpenAI integration: {e}")
-                self.demo_mode_fallback()
-                self.ai_manager = None
-                self.session_logger = None
-
-            try:
-                self.db_service = MDBService()
-                logger.info("🗃️ Connection to the database established successfully")
-
-                # ✅ MongoDB DEBUG (temporary & visible)
-                with st.sidebar:
-                    st.subheader("🔍 MongoDB Debug")
-                    st.write("DB Name:", self.db_service._db.name)
-                    st.write("Collections:", self.db_service._db.list_collection_names())
-
-            except DatabaseConnectionException as e:
-                logger.error("❌🗃️ Could not establish the connection to the database!")
-                st.error(f"Failed to connect to the database: {e}")
-                self.demo_mode_fallback()
-                self.db_service = None
-
-        return True
-
-    except Exception as e:
-        st.error(f"Failed to initialize system: {e}")
-        return False
+            return True
+            
+        except Exception as e:
+            st.error(f"Failed to initialize system: {e}")
+            return False
             
 
 
