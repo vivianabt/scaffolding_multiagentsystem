@@ -2120,11 +2120,11 @@ class StreamlitExperimentalSession:
             return {"error": str(e)}
 
     
-    def save_session_data(self, session_data: Dict[str, Any]) -> Dict[str, str]:
+    def save_session_data(self) -> Dict[str, str]:
         """Save complete session data to JSON and CSV files."""
         try:
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            participant_name = session_data['learner_profile'].get('name', 'unknown')
+            participant_name = self.session_data['learner_profile'].get('name', 'unknown')
             
             # Create experimental_data directory - use correct path relative to project root
             experimental_data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "experimental_data")
@@ -2135,17 +2135,17 @@ class StreamlitExperimentalSession:
             json_filepath = os.path.join(experimental_data_dir, json_filename)
             
             with open(json_filepath, 'w', encoding='utf-8') as f:
-                json.dump(session_data, f, indent=2, ensure_ascii=False)
+                json.dump(self.session_data, f, indent=2, ensure_ascii=False)
             
             # CSV export (flattened for analysis)
             csv_filename = f"experimental_results_{participant_name}_{timestamp}.csv"
             csv_filepath = os.path.join(experimental_data_dir, csv_filename)
             
-            self._export_csv_data(csv_filepath, session_data)
+            self._export_csv_data(csv_filepath)
 
             # Export session data to the database
             if self.db_service:
-                self.db_service.insert_session(session_data)
+                self.db_service.insert_session(self.session_data)
 
             return {
                 "json_file": json_filepath,
@@ -2157,7 +2157,7 @@ class StreamlitExperimentalSession:
         except Exception as e:
             st.error(f"Error saving session data: {e}")
             return {"error": str(e)}
-
+    
 
     def save_giveaway_email(self, giveaway_data: Dict[str, str]) -> None:
         """Save giveaway email separately from study data."""
