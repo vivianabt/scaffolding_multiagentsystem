@@ -2189,7 +2189,7 @@ class StreamlitExperimentalSession:
         pass
 
 
-    def _export_csv_data(self, csv_filepath: str, session_data: Dict[str, Any]):
+     def _export_csv_data(self, filepath: str):
         """Export flattened data for statistical analysis."""
         import csv
         
