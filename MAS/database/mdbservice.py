@@ -158,6 +158,13 @@ class MDBService:
         Raises:
             MissingIndexException: If any required session index is missing.
         """
+
+        """
+        Neu: Inserts or updates a session record.
+        If a session with the same session_id exists, it will be updated.
+        Otherwise, it will be inserted.
+        """
+
         for key in self._session_keys:
             if key not in session_data:
                 raise MissingIndexException(f"Session data is missing required index key '{key}'")
