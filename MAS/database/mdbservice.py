@@ -11,7 +11,7 @@ from MAS.database.dtos import *
 
 load_dotenv()
 def _construct_uri_from_env() -> str:
-    return os.environ["MONGODB_URI"]
+    return f"mongodb+srv://{os.environ['MONGODB_MAS_NAME']}:{os.environ['MONGODB_MAS_KEY']}@mas.oxzqvr2.mongodb.net/?retryWrites=true&w=majority&appName=MAS"
 
 logger = logging.getLogger(__name__)
 
@@ -165,20 +165,22 @@ class MDBService:
         Otherwise, it will be inserted.
         """
 
+        # 1️⃣ Validierung: Pflicht-Keys prüfen
         for key in self._session_keys:
             if key not in session_data:
                 raise MissingIndexException(f"Session data is missing required index key '{key}'")
         
-        self._add_insertion_timestamp(session_data)
+        # 2️⃣ update_one statt insert_one (DER FIX)
         self._sessions.update_one(
             {"session_id": session_data["session_id"]},
             {
                 "$set": session_data,
-                "$setOnInsert": {"created_at": datetime.utcnow()}
+                "$setOnInsert": {
+                    "created_at": datetime.utcnow()
+                }
             },
             upsert=True
         )
-
 
 
     def get_latest_session(self) -> Optional[Dict[Any, Any]]:
