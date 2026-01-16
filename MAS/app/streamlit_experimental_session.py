@@ -2086,7 +2086,7 @@ class StreamlitExperimentalSession:
             study_data.pop("giveaway_email", None)
     
             # --- Save study data (DB + files) ---
-            export_info = self.save_session_data(study_data)
+            export_info = self.save_session_data()
     
             # --- Save giveaway email separately ---
             if giveaway_email:
@@ -2189,7 +2189,7 @@ class StreamlitExperimentalSession:
         pass
 
 
-     def _export_csv_data(self, filepath: str):
+    def _export_csv_data(self, filepath: str):
         """Export flattened data for statistical analysis."""
         import csv
         
