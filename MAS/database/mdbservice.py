@@ -158,30 +158,13 @@ class MDBService:
         Raises:
             MissingIndexException: If any required session index is missing.
         """
-
-        """
-        Neu: Inserts or updates a session record.
-        If a session with the same session_id exists, it will be updated.
-        Otherwise, it will be inserted.
-        """
-
-        # 1️⃣ Validierung: Pflicht-Keys prüfen
         for key in self._session_keys:
             if key not in session_data:
                 raise MissingIndexException(f"Session data is missing required index key '{key}'")
         
-        # 2️⃣ update_one statt insert_one (DER FIX)
-        self._sessions.update_one(
-            {"session_id": session_data["session_id"]},
-            {
-                "$set": session_data,
-                "$setOnInsert": {
-                    "created_at": datetime.utcnow()
-                }
-            },
-            upsert=True
-        )
-
+        self._add_insertion_timestamp(session_data)
+        self._sessions.insert_one(session_data)
+        
 
     def get_latest_session(self) -> Optional[Dict[Any, Any]]:
         """
