@@ -705,23 +705,16 @@ def render_summary_page():
                 }
             )
 
-    # Finalize session if not already done
-    if (
-        not st.session_state.get("_db_persisted", False)
-        and st.session_state.experimental_session
-    ):
+     # Finalize session if not already done
+    if not st.session_state.session_finalized and st.session_state.experimental_session:
         with st.spinner("Sitzung wird abgeschlossen und Daten werden gespeichert..."):
             export_info = st.session_state.experimental_session.finalize_session()
-    
-            # 🔐 HARTER SCHUTZ GEGEN JEDEN RERUN
             st.session_state.session_finalized = True
-            st.session_state._db_persisted = True
-    
+
             if "error" not in export_info:
                 st.success("✅ Sitzungsdaten erfolgreich gespeichert!")
-    
-            # ⛔ STOPPT DEN AKTUELLEN STREAMLIT-RERUN
-            st.stop()
+
+    st.subheader("Sitzungsuebersicht")
 
 
     # Get session summary
