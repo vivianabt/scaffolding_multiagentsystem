@@ -2058,20 +2058,19 @@ class StreamlitExperimentalSession:
     def finalize_session(self) -> Dict[str, Any]:
         """Finalize the session and export data."""
         try:
-            # Add final summary to session data
+            # --- Final session metrics ---
             self.session_data["end_time"] = datetime.now().isoformat()
             self.session_data["total_duration_seconds"] = (
-                datetime.fromisoformat(self.session_data["end_time"]) - 
+                datetime.fromisoformat(self.session_data["end_time"]) -
                 datetime.fromisoformat(self.session_data["start_time"])
             ).total_seconds()
-            self.session_data["total_rounds"] = len(self.session_data["rounds"])
-            self.session_data["final_concept_map"] = self.session_data["current_concept_map"]
-            
-            # Calculate and add map summary statistics
+            self.session_data["total_rounds"] = len(self.session_data.get("rounds", []))
+            self.session_data["final_concept_map"] = self.session_data.get("current_concept_map")
+    
+            # --- Map summary ---
             final_nodes = len(self.session_data["current_concept_map"].get("concepts", []))
             final_edges = len(self.session_data["current_concept_map"].get("relationships", []))
-            
-            # Add map_summary to session data for easy identification
+    
             self.session_data["map_summary"] = {
                 "final_nodes": final_nodes,
                 "final_edges": final_edges,
@@ -2079,63 +2078,52 @@ class StreamlitExperimentalSession:
                 "participant_id": self.session_data.get("learner_profile", {}).get("unique_id", "N/A"),
                 "participant_name": self.session_data.get("learner_profile", {}).get("name", "Unknown")
             }
-
-            # Store domain knowledge (post-task questionnaire)
+    
+            # --- Optional post-task measures ---
             if "domain_knowledge" in st.session_state:
                 self.session_data["domain_knowledge"] = st.session_state.domain_knowledge
-
-            #Store Email for Giveaway
-            if "giveaway_email" in st.session_state and st.session_state.giveaway_email:
-                self.session_data["giveaway_email"] = st.session_state.giveaway_email
-            
-            # Save session data
-            # --- Prepare study data (exclude giveaway email) ---
-            original_session_data = self.session_data
+    
+            # --- Separate giveaway email ---
+            giveaway_email = st.session_state.get("giveaway_email")
+    
+            # --- Prepare study data (STRICTLY without email) ---
             study_data = dict(self.session_data)
             study_data.pop("giveaway_email", None)
-            
-            # Temporarily replace session_data for export
-            self.session_data = study_data
-            
-            # Save study data (JSON + CSV, without email)
+    
+            # --- Save study data (DB + files) ---
             export_info = self.save_session_data()
-            
-            # Restore full session data in memory
-            self.session_data = original_session_data
-
+    
             # --- Save giveaway email separately ---
-            if "giveaway_email" in self.session_data and self.session_data["giveaway_email"]:
+            if giveaway_email:
                 self.save_giveaway_email({
-                    "email": self.session_data["giveaway_email"],
+                    "session_id": self.session_data.get("session_id"),
+                    "email": giveaway_email,
                     "timestamp": datetime.now().isoformat()
                 })
-            
-            
-            # Log session end with map summary
+    
+            # --- Logging ---
             if self.session_logger:
-                # Log map summary event for easy identification
                 self.session_logger.log_event(
                     event_type="map_summary",
                     metadata=self.session_data["map_summary"]
                 )
-                
                 self.session_logger.log_session_end({
-                    "total_rounds": len(self.session_data["rounds"]),
+                    "total_rounds": self.session_data["total_rounds"],
                     "final_nodes": final_nodes,
                     "final_edges": final_edges,
                     "export_files": export_info
                 })
-            
-            # Export session log to the database
+    
             if self.db_service:
                 self.db_service.insert_session_log(self.session_logger.log_entries)
-
-            logger.info("Session was finalized successfully") 
+    
+            logger.info("Session was finalized successfully")
             return export_info
-            
+    
         except Exception as e:
             st.error(f"Error finalizing session: {e}")
             return {"error": str(e)}
+            
     
     def save_session_data(self) -> Dict[str, str]:
         """Save complete session data to JSON and CSV files."""
