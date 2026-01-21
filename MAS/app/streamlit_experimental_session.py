@@ -1,4 +1,4 @@
-"""
+=?0"""
 Streamlit-adapted Experimental Session for Multi-Agent Scaffolding System
 
 This module adapts the InteractiveExperimentalSession for use with Streamlit,
@@ -935,6 +935,7 @@ class StreamlitExperimentalSession:
                     "Ich habe umfangreiche praktische Erfahrungen im Umgang mit KI.",
                     "Ich habe sehr umfangreiche Erfahrungen in der KI-Forschung und/oder -Entwicklung.",
                 ],
+                index=0,
                 help="Wie vertraut sind Sie im Umgang mit KI?",
             )
             # # Learning factors that could affect outcome
