@@ -882,7 +882,7 @@ class StreamlitExperimentalSession:
                 "Kein Schulabschluss",
                 "Hauptschulabschluss",
                 "Realschulabschluss",
-                "Abitur",
+                "(Fach-)Abitur",
                 "Bachelor",
                 "Master",
                 "Promotion",
