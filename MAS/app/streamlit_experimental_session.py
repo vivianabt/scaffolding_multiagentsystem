@@ -934,6 +934,7 @@ class StreamlitExperimentalSession:
                     "Ich habe umfangreiche praktische Erfahrungen im Umgang mit KI.",
                     "Ich habe sehr umfangreiche Erfahrungen in der KI-Forschung und/oder -Entwicklung.",
                 ],
+                index=0,
                 help="Wie vertraut sind Sie im Umgang mit KI?"
             )
         
