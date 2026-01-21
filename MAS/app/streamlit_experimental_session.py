@@ -972,7 +972,7 @@ class StreamlitExperimentalSession:
                     education_level != "Please select...",
                     activity,
                     background != "Please select...",
-                    confidencechat != "Please select..."
+                    confidencechat
                 ]):
                     st.error("Bitte füllen Sie alle Pflichtfelder aus.")
                     return None
