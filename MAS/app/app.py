@@ -133,7 +133,7 @@ def render_mode_selection():
     st.success("""
     📋 **Aufgabenbeschreibung & Materialien:**
 
-    Diese Studie untersucht die Nuetzlichkeit von Chatbot-Anweisungen beim Lernen. Im Experiment hast du durchgehend Zugriff auf:
+    Diese Studie untersucht die Nuetzlichkeit von Chatbot-Anweisungen bei der Aufgabenerledigung. Im Experiment hast du durchgehend Zugriff auf:
     - **Aufgabenbeschreibung**: Das konkrete Problem, das du per Concept Map loesen sollst
     - **Zusatzmaterialien**: Weitere Ressourcen zum besseren Verstaendnis des Themas
     - **Hilfen und Anweisungen**: Ab Runde 1 kannst du mit einem Chatbot interagieren, der dir hilft, deine Map zu verbessern
@@ -192,16 +192,16 @@ def render_consent_form():
         st.markdown("""
         ### Einverstaendniserklaerung zur Studienteilnahme
 
-        Du wirst eingeladen, an der Studie **"Agentic AI for Higher Education"** teilzunehmen.
+        Du wirst eingeladen, an der Studie **"Agentic AI zur Aufgabenunterstützung"** teilzunehmen.
         Die Studie wird von **Vivian Abt** an der **Universitaet Kassel** durchgefuehrt.
 
         **Zweck der Studie:**
-        Wir untersuchen, wie KI-gestuetzte Agenten beim Lernen durch Concept Mapping unterstuetzen koennen.
+        Diese Studie untersucht, wie KI-gestützte Chatbot-Anweisungen Nutzer:innen bei der Bearbeitung einer Aufgabe mittels Concept Mapping unterstützen.
         Wenn du zustimmst, bearbeitest du ein Online-Concept-Mapping mit KI-Unterstuetzung und anschliessenden Frageboegen.
         Dauer: ca. **30 Minuten**.
 
         **Nutzen:**
-        Deine Teilnahme hilft, Lerntechnologien und KI-gestuetzte Lernhilfen weiterzuentwickeln.
+        Deine Teilnahme trägt dazu bei, den Einsatz von KI-basierten Assistenzsystemen zur Unterstützung der Aufgabenerledigung besser zu verstehen und weiterzuentwickeln.
 
         **Risiken & Vertraulichkeit:**
         Es sind keine besonderen Risiken bekannt; ein Restrisiko fuer Vertraulichkeit besteht immer online.
