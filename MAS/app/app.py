@@ -1161,9 +1161,16 @@ def render_followup():
         # Show instructions
         if conversation_turn == 0:
             st.info(
-                "💡 **Tipp:** Du kannst bis zu 5 Austausche mit dem Agenten in dieser Runde fuehren."
-                "Nutze 'Gespraech fortsetzen' fuer weitere Fragen oder 'Runde beenden', wenn du fertig bist."
-                "**Hinweis:** Du musst mindestens ein Mal antworten, um in die nächste Runde zu gehen")
+                "💡 **Tipp:** Du kannst bis zu 5 Austausche mit dem Agenten in dieser Runde fuehren.\n\n"
+                "Nutze **„Gespraech fortsetzen“** fuer weitere Fragen oder **„Runde beenden“**, "
+                "wenn du fertig bist."
+            )
+            
+            st.warning(
+                "⚠️ **Hinweis:** Du musst mindestens **ein Mal antworten**, "
+                "um in die nächste Runde zu gehen."
+            )
+
         elif conversation_turn >= max_user_messages - 1:
             st.warning("⚠️ Dies ist dein letzter Austausch in dieser Runde. Klicke auf 'Runde beenden', um weiterzugehen.")
 
