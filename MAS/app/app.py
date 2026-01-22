@@ -269,7 +269,7 @@ def render_attention_check_failure():
 
     Du hast den Aufmerksamkeitscheck nicht bestanden und kannst an dieser Studie leider nicht teilnehmen.
 
-    Wir brauchen, dass alle Fragen sorgfaeltig gelesen und beantwortet werden, um die Datenqualitaet sicherzustellen.
+    Es ist wichtig, dass alle Fragen sorgfaeltig gelesen und beantwortet werden, um die Datenqualitaet sicherzustellen.
 
     Danke fuer deine Zeit und dein Interesse.
     """)
