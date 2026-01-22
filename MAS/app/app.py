@@ -320,7 +320,7 @@ def render_tutorial():
     Willkommen! Bevor wir starten, schauen wir uns an, wie man Concept Maps effektiv erstellt.
 
     **Was ist eine Concept Map?**
-    Eine Concept Map ist eine visuelle Darstellung von Wissen, die Beziehungen zwischen Konzepten ueber Knoten (Konzepte) und Kanten (Beziehungen) zeigt. Die Map ist responsiv, du kannst hinein- und herauszoomen, um sie an deinen Bildschirm anzupassen.
+    Eine Concept Map ist eine visuelle Darstellung von Wissen, die Beziehungen zwischen Konzepten ueber Knoten (Konzepte/Kreise) und Kanten (Beziehungen/Pfeile) zeigt. Die Map ist responsiv, du kannst hinein- und herauszoomen, um sie an deinen Bildschirm anzupassen.
     """)
 
     tutorial_steps = [
