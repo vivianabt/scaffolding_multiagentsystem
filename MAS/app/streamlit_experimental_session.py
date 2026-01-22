@@ -961,7 +961,7 @@ class StreamlitExperimentalSession:
         """Get agent response for the current round with pattern detection."""
         # Handle round 0 specially - no scaffolding
         if roundn == 0:
-            return "Bitte erstelle deine erste Concept Map zum Thema. Nimm dir Zeit, alle relevanten Konzepte und Beziehungen einzutragen. Wenn du bereit bist, reiche die Concept Map ein, um fortzufahren."
+            return "Bitte erstelle deine erste Concept Map zum Thema. Nimm dir Zeit, alle relevanten Konzepte und Beziehungen einzutragen. Du solltest an einer Runde nicht länger als 5 Minuten arbeiten. Du kannst die Map in den kommenden Runden weiter überarbeiten. Wenn du bereit bist, reiche die Concept Map ein, um fortzufahren."
         
         # Adjust for agent sequence after round 0
         agent_index = roundn - 1
