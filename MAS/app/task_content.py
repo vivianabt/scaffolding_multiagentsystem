@@ -60,7 +60,7 @@ Erstelle mit der bereitgestellten Oberflaeche eine Concept Map, die zeigt, wie f
 
 ### Format
 
-Du arbeitest in 5 Runden (je ca. 5–10 Minuten). In jeder Runde kannst du deine Map mit Hilfe der Chatbots erweitern/verbessern.
+Du arbeitest in 5 Runden (je ca. 5–10 Minuten). In jeder Runde kannst du deine Map mit Hilfe des Chatbots erweitern/verbessern.
 
 **Tipp:** Starte mit offensichtlichen Verbindungen und fuege dann komplexere Beziehungen hinzu. AMG ist ein Mechanismus etablierter Firmen – ueberlege, wie es die Aspekte des Markteintritts beeinflusst.
 """
