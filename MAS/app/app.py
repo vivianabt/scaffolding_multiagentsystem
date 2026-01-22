@@ -445,7 +445,7 @@ def render_agent_acceptance_question():
     st.markdown("---")
 
     st.info("""
-    Bevor es mit den letzten Frageboegen weitergeht, wollen wir wissen, wie du die Agenten erlebt hast.
+    Bevor es mit den letzten Frageboegen weitergeht, wollen wir wissen, wie du den Agenten aus der Aufgabe erlebt hast.
     """)
 
     with st.form("agent_acceptance"):
