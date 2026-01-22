@@ -196,7 +196,7 @@ def render_consent_form():
         Die Studie wird von **Vivian Abt** an der **Universitaet Kassel** durchgefuehrt.
 
         **Zweck der Studie:**
-        Diese Studie unterstützt, wie KI-gestützte Chatbot-Anweisungen Nutzer:innen bei der Bearbeitung einer Aufgabe mittels Concept Mapping unterstützen.
+        Diese Studie untersucht, wie KI-gestützte Chatbot-Anweisungen Nutzer:innen bei der Bearbeitung einer Aufgabe mittels Concept Mapping unterstützen.
         Wenn du zustimmst, bearbeitest du ein Online-Concept-Mapping mit KI-Unterstuetzung und anschliessenden Frageboegen.
         Dauer: ca. **30 Minuten**.
 
