@@ -307,7 +307,7 @@ def render_learner_profile():
         st.markdown("---")
         st.info("📝 Als naechstes folgt ein Fragebogen zu deinen Vorkenntnissen zu den Aufgabenmaterialien.")
 
-        if st.button("Weiter zum Vorkenntnis-Fragebogen", type="primary"):
+        if st.button("Weiter zum Tutorial", type="primary"):
             st.rerun()
 
 
