@@ -222,7 +222,7 @@ class StreamlitExperimentalSession:
             {
                 "construct": "GCL",
                 "code": "GCL3",
-                "statement": "Die Lerneinheit enthielt Elemente, die mich unterstützten, den Lernstoff besser zu verstehen."
+                "statement": "Die Lerneinheit enthielt Inhalte, die mich unterstützten, den Lernstoff besser zu verstehen."
             },
             # {
             #     "construct": "GCL",
