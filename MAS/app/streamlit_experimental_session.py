@@ -314,6 +314,23 @@ class StreamlitExperimentalSession:
                 passed_attention_check = attn_response == 4
                 clt_data["passed_attention_check"] = passed_attention_check
 
+                if not passed_attention_check:
+                    st.session_state.attention_check_failed = True
+                
+                    if self.session_logger:
+                        self.session_logger.log_event(
+                            event_type="attention_check_failed",
+                            metadata={
+                                "questionnaire": "CLT",
+                                "expected_answer": 4,
+                                "given_answer": attn_response,
+                                "timestamp": datetime.now().isoformat()
+                            }
+                        )
+                
+                    st.error("❌ Aufmerksamkeitscheck nicht bestanden.")
+                    st.rerun()
+                    return
 
                 
                 # Add to session data
