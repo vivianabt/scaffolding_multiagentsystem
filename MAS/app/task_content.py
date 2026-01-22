@@ -38,7 +38,7 @@ Das deutsche Software-Start-up „Veyra“ will in den japanischen Markt. Durch 
 
 ## Deine Aufgabe
 
-Erstelle mit der bereitgestellten Oberflaeche eine Concept Map, die zeigt, wie folgende Konzepte beim internationalen Markteintritt des Start-ups zusammenhaengen. Hebe hervor, wie das Start-up AMG navigieren kann.
+Erstelle mit der bereitgestellten Oberflaeche eine Concept Map, die zeigt, wie folgende Konzepte beim internationalen Markteintritt des Start-ups zusammenhaengen. Hebe hervor, welche Rolle AMG beim internationalen Markteintritt des Start-ups spielt.
 
 ### Konzepte (eigene, konkrete Benennung erlaubt):
 
