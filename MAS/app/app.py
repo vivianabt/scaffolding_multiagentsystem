@@ -1173,7 +1173,7 @@ def render_followup():
             
             st.warning(
                 "**Hinweis:** Du musst mindestens **ein Mal antworten**, "
-                "um in die nächste Runde zu gehen."
+                "um in die nächste Runde zu gehen. Der Agent bezieht deine Änderungen in der nächsten Runde mit ein."
             )
 
         elif conversation_turn >= max_user_messages - 1:
