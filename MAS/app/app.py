@@ -48,7 +48,7 @@ def init_session_state():
         "agent_acceptance_completed": False,
         "task_difficulty_completed": False,
         "clt_completed": False,
-        "post_questionnaire_completed": False,
+        "post_questionnaire_completed": True,
         "critical_ai_completed": False,
         "ai_reliance_completed": False,
         "trust_in_ai_completed": False,
@@ -1523,14 +1523,16 @@ def main():
             render_domain_knowledge_questionnaire()
             return
         
-        # Post-knowledge questionnaire (experimental mode only, after map adaptation - measure learning gains immediately)
+        # Post-knowledge questionnaire REMOVED
         if (st.session_state.mode == "experimental" and
              st.session_state.get('task_difficulty_completed', False) and
              not st.session_state.get('post_questionnaire_completed', False)):
-             if st.session_state.experimental_session:
-                 st.session_state.experimental_session.render_post_knowledge_questionnaire()
-             st.components.v1.html(scroll_js)
-             return
+             
+             # Direkt als erledigt markieren
+             st.session_state.post_questionnaire_completed = True
+             st.session_state.scroll_to_top = True
+             st.rerun()
+
 
         # CLT questionnaire (experimental mode only, after post-knowledge questionnaire)
         if (st.session_state.mode == "experimental" and
