@@ -925,7 +925,7 @@ def render_concept_map():
         # example map
         if roundn == 0:
             st.markdown(
-                "Bitte lies die Aufgabenbeschreibung und die Zusatzmaterialien sorgfaeltig. Fuege in dieser Runde mindestens 3 und bis zu 5 deiner wichtigsten Konzepte und deren Verbindungen hinzu. Unten ein Beispiel, wie eine Baseline-Concept-Map vor der Unterstuetzung aussehen koennte.")
+                "Bitte lies die Aufgabenbeschreibung und die Zusatzmaterialien sorgfaeltig. Fuege in dieser Runde mindestens 3 und bis zu 5 deiner wichtigsten Konzepte und deren Verbindungen hinzu. Du solltest an einer Runde nicht länger als 5 Minuten arbeiten. Du kannst die Map in den kommenden Runden weiter überarbeiten. Unten ein Beispiel, wie eine Baseline-Concept-Map vor der Unterstuetzung aussehen koennte.")
 
             img_path = os.path.join(os.path.dirname(__file__), "..", "examples", "data", "examplemap.png")
             if os.path.exists(img_path):
