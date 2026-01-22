@@ -1,4 +1,4 @@
-=?0"""
+"""
 Streamlit-adapted Experimental Session for Multi-Agent Scaffolding System
 
 This module adapts the InteractiveExperimentalSession for use with Streamlit,
