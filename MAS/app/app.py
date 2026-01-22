@@ -44,7 +44,7 @@ def init_session_state():
         "profile_initialisation_started": False,
         "session_initialized": False,
         "profile_initialized": False,
-        "pre_questionnaire_completed": False,
+        "pre_questionnaire_completed": True,
         "agent_acceptance_completed": False,
         "task_difficulty_completed": False,
         "clt_completed": False,
@@ -1474,15 +1474,6 @@ def main():
             st.session_state.profile_initialisation_started and
             not st.session_state.profile_initialized):
         render_learner_profile()
-        return
-
-    # Pre-knowledge questionnaire (experimental mode only)
-    if (st.session_state.mode == "experimental" and
-            st.session_state.profile_initialized and
-            not st.session_state.pre_questionnaire_completed):
-        if st.session_state.experimental_session:
-            st.session_state.experimental_session.render_pre_knowledge_questionnaire()
-        st.components.v1.html(scroll_js)
         return
 
     # Attention check failure page (experimental mode only, after pre-questionnaire)
