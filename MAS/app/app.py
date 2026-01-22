@@ -48,7 +48,7 @@ def init_session_state():
         "agent_acceptance_completed": False,
         "task_difficulty_completed": False,
         "clt_completed": False,
-        "post_questionnaire_completed": False,
+        "post_questionnaire_completed": True,
         "critical_ai_completed": False,
         "ai_reliance_completed": False,
         "trust_in_ai_completed": False,
