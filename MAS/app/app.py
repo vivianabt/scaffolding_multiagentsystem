@@ -1539,13 +1539,13 @@ def main():
 
         # Post-knowledge questionnaire REMOVED
         if (st.session_state.mode == "experimental" and
-             st.session_state.get('task_difficulty_completed', False) and
-             not st.session_state.get('post_questionnaire_completed', False)):
-             
-             # Direkt als erledigt markieren
-             st.session_state.post_questionnaire_completed = True
-             st.session_state.scroll_to_top = True
-             st.rerun()
+            st.session_state.get('task_difficulty_completed', False) and
+            not st.session_state.get('post_questionnaire_completed', False)):
+            
+            # Direkt als erledigt markieren
+            st.session_state.post_questionnaire_completed = True
+            st.session_state.scroll_to_top = True
+            st.rerun()
 
         # CLT questionnaire (experimental mode only, after post-knowledge questionnaire)
         if (st.session_state.mode == "experimental" and
