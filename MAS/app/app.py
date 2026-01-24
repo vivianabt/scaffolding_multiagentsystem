@@ -796,9 +796,14 @@ def render_summary_page():
     if st.button("Experiment abschließen", type="primary"):
         if email and not consent:
             st.stop()
-
-        st.session_state.giveaway_email = email.strip() if email else None
+    
+        if email and consent and st.session_state.experimental_session:
+            st.session_state.experimental_session.save_giveaway_email(
+                {"email": email.strip()}
+            )
+    
         st.success("Vielen Dank für Deine Teilnahme!")
+
 
 
     # Leading back to Prolific
