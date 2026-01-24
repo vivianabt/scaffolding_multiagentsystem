@@ -617,10 +617,10 @@ def render_critical_ai_questionnaire():
 
     items = [
         "Ich begegne den Antworten von KI mit einer kritischen Haltung und hinterfrage die von ihr gelieferten Informationen.",
-        "Ich überprüfe aktiv Fakten und bewerte die Glaubwürdigkeit der von KI bereitgestellten Informationen.",
+        "Ich überprüfe Fakten aus KI-Antworten nur selten und nehme ihre Glaubwürdigkeit meist als gegeben an.",
         "Ich suche aktiv nach unterschiedlichen Perspektiven und Meinungen, um sie mit den von KI generierten Informationen zu vergleichen.",
-        "Ich bewerte kritisch die zugrunde liegenden Annahmen und mögliche Voreingenommenheit in den Antworten von KI.",
-        "Ich erkenne an, dass KI nicht immer vollständige oder unvoreingenommene Informationen liefern kann.",
+        "Ich hinterfrage die zugrunde liegenden Annahmen oder mögliche Voreingenommenheit in KI-Antworten nur wenig.",
+        "Ich gehe davon aus, dass KI in der Regel vollständige und unvoreingenommene Informationen liefert.",
         "Ich prüfe kritisch, inwiefern die Antworten von KI auf meinen spezifischen Kontext anwendbar sind.",
         "Ich nutze KI als Werkzeug neben anderen Quellen und hinterfrage bei Bedarf die Schlussfolgerungen sowie die Logik dessen Antworten.",
     ]
