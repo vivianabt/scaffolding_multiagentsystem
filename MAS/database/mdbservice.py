@@ -39,6 +39,8 @@ class MDBService:
             self._scaffdb  = self._client['scaffolding'] # scaffolding database
             self._profiles = self._scaffdb['profiles'] # profiles collection (table)
             self._sessions = self._scaffdb['sessions'] # sessions collection (table)
+            self._verlosung_emails = self._scaffdb['verlosung_emails'] # verlosung_emails collection (table)
+            self._verlosung_emails.create_index("email", unique=True) # gleiche Gewinnchance bei Verlosung (nur ein mal speichern)
             self._session_logs = self._scaffdb['session_logs'] # logs collection (table)
             self._load_session_keys()
         except Exception as e:
@@ -289,8 +291,25 @@ class MDBService:
             profile: A UserProfile object to update.
         """
         raise NotImplementedError("Profile update feature is not yet implemented")
+        
 
-
+    def insert_verlosung_email(self, email: str) -> bool:
+            """
+            Inserts a giveaway email into a separate collection.
+            No relation to sessions or profiles.
+            """
+            try:
+                document = {
+                    "email": email,
+                    "inserted_at": datetime.utcnow().isoformat()
+                }
+                self._verlosung_emails.insert_one(document)
+                return True
+            except DuplicateKeyError:
+                # Email already exists → silently ignore
+                return False
+                
+    
     def ping(self) -> None:
         """
         Pings the MongoDB server to verify the connection.
