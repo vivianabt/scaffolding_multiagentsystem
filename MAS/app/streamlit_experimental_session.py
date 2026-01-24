@@ -1757,25 +1757,18 @@ class StreamlitExperimentalSession:
     
 
     def save_giveaway_email(self, giveaway_data: Dict[str, str]) -> None:
-        """Save giveaway email separately from study data."""
-        try:
-            experimental_data_dir = os.path.join(
-                os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                "experimental_data"
-            )
-            os.makedirs(experimental_data_dir, exist_ok=True)
-    
-            file_path = os.path.join(experimental_data_dir, "giveaway_emails.csv")
-            file_exists = os.path.isfile(file_path)
-    
-            with open(file_path, "a", newline="", encoding="utf-8") as f:
-                writer = csv.DictWriter(f, fieldnames=giveaway_data.keys())
-                if not file_exists:
-                    writer.writeheader()
-                writer.writerow(giveaway_data)
-    
-        except Exception as e:
-            logger.error(f"Error saving giveaway email: {e}")
+    """Save giveaway email separately from study data."""
+    try:
+        if not self.db_service:
+            return
+
+        email = giveaway_data.get("email")
+        if email:
+            self.db_service.insert_verlosung_email(email)
+
+    except Exception as e:
+        logger.error(f"Error saving giveaway email: {e}")
+
 
         
     def _save_session_to_database(self):
