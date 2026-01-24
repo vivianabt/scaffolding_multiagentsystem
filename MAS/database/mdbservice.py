@@ -1,5 +1,5 @@
 import os, bcrypt, logging
-from typing import Any, Literal
+from typing import Any, Literal, Optional, List, Dict
 from dotenv import load_dotenv
 from pymongo import DESCENDING
 from pymongo.mongo_client import MongoClient
