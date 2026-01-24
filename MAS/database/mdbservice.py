@@ -5,6 +5,8 @@ from pymongo import DESCENDING
 from pymongo.mongo_client import MongoClient
 from datetime import datetime
 
+from pymongo.errors import DuplicateKeyError
+
 from streamlit.runtime.state import session_state_proxy
 
 from MAS.database.dtos import *
@@ -291,6 +293,23 @@ class MDBService:
             profile: A UserProfile object to update.
         """
         raise NotImplementedError("Profile update feature is not yet implemented")
+    
+
+    def insert_verlosung_email(self, email: str) -> bool:
+        """
+        Inserts a giveaway email into a separate collection.
+        No relation to sessions or profiles.
+        """
+        try:
+            document = {
+                "email": email,
+                "inserted_at": datetime.utcnow().isoformat()
+            }
+            self._verlosung_emails.insert_one(document)
+            return True
+        except DuplicateKeyError:
+            # Email already exists → silently ignore
+            return False
 
 
     def ping(self) -> None:
