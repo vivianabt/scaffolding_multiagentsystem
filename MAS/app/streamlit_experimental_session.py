@@ -1757,17 +1757,17 @@ class StreamlitExperimentalSession:
     
 
     def save_giveaway_email(self, giveaway_data: Dict[str, str]) -> None:
-    """Save giveaway email separately from study data."""
-    try:
-        if not self.db_service:
-            return
-
-        email = giveaway_data.get("email")
-        if email:
-            self.db_service.insert_verlosung_email(email)
-
-    except Exception as e:
-        logger.error(f"Error saving giveaway email: {e}")
+        """Save giveaway email separately from study data."""
+        try:
+            if not self.db_service:
+                return
+    
+            email = giveaway_data.get("email")
+            if email:
+                self.db_service.insert_verlosung_email(email)
+    
+        except Exception as e:
+            logger.error(f"Error saving giveaway email: {e}")
 
 
         
