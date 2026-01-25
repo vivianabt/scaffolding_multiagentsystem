@@ -680,7 +680,11 @@ def render_summary_page():
     st.header("Concept-Mapping-Experiment")
     st.markdown("---")
     st.write("Danke, dass du am Concept-Mapping-Experiment teilgenommen hast!")
-    st.balloons()
+    # 🎈 Ballons nur beim ersten Öffnen der Summary-Seite
+    if not st.session_state.get("_summary_balloons_shown", False):
+        st.balloons()
+        st.session_state._summary_balloons_shown = True
+
 
     # Calculate map summary statistics
     final_nodes = 0
