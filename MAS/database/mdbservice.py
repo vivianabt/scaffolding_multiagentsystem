@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from pymongo import DESCENDING
 from pymongo.mongo_client import MongoClient
 from datetime import datetime
-
+from zoneinfo import ZoneInfo
 from pymongo.errors import DuplicateKeyError
 
 from streamlit.runtime.state import session_state_proxy
@@ -303,7 +303,7 @@ class MDBService:
         try:
             document = {
                 "email": email,
-                "inserted_at": datetime.utcnow().isoformat()
+                "inserted_at": datetime.now(ZoneInfo("Europe/Berlin")).isoformat()
             }
             self._verlosung_emails.insert_one(document)
             return True
