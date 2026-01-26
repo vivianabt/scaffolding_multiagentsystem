@@ -64,6 +64,7 @@ class StreamlitExperimentalSession:
             "used_agents": [],
             "rounds": [],
             "concept_map_evolution": [],
+            "concept_map_rounds": {},
             "current_concept_map": {"concepts": [], "relationships": []},
             "mode": None
         }
@@ -1468,22 +1469,6 @@ class StreamlitExperimentalSession:
             }
             
             self.session_data["concept_map_evolution"].append(evolution_entry)
-
-            # -------------------------------
-            # Store per-round snapshot directly in session_data (Variante A)
-            # -------------------------------
-            round_key = f"round_{roundn}"
-            
-            self.session_data["concept_map_rounds"][round_key] = {
-                "timestamp": evolution_entry["timestamp"],
-                "agent_type": agent_type,
-                "concepts": internal_format.get("concepts", []),
-                "relationships": internal_format.get("relationships", []),
-                "actions": action_history,
-                "interaction_metrics": interaction_metrics,
-                "session_timing": session_timing
-            }
-
             
             # Update current concept map (cumulative)
             self.session_data["current_concept_map"] = internal_format
@@ -1501,6 +1486,7 @@ class StreamlitExperimentalSession:
                         "nodes_count": len(internal_format.get("concepts", [])),
                         "edges_count": len(internal_format.get("relationships", [])),
                         "evolution_length": len(self.session_data["concept_map_evolution"]),
+                        "evolution_entry": evolution_entry,
                         "input_data_type": type(concept_map_data).__name__,
                         "action_count": len(action_history),
                         "interaction_metrics": interaction_metrics
