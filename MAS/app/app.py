@@ -1023,14 +1023,11 @@ def render_followup():
         return
 
     # Initialize conversation state for this round
-    # 🔑 EINZIGE Quelle der Wahrheit: session_data
-    conversation_history = (
-        st.session_state.experimental_session
-        .session_data
-        .setdefault("conversation_history", {})
-        .setdefault(f"round_{roundn}", [])
-    )
+    round_key = f"round_{roundn}_conversation"
+    if round_key not in st.session_state:
+        st.session_state[round_key] = []
 
+    conversation_history = st.session_state[round_key]
 
     # Initialize conversation turn counter
     conversation_turn_key = f"round_{roundn}_turn"
@@ -1062,31 +1059,17 @@ def render_followup():
             # Get agent response
             if st.session_state.experimental_session:
                 if not st.session_state.agent_msg:
-                    agent_message = st.session_state.experimental_session.get_agent_response(
+                    st.session_state.agent_msg = st.session_state.experimental_session.get_agent_response(
                         roundn,
                         concept_map_data=current_cm_data,
                         user_response=previous_user_response,
                         conversation_turn=conversation_turn
                     )
-                    
-                    st.session_state.agent_msg = agent_message
-                    
-                    session = st.session_state.experimental_session
-                    
-                    # 🔑 Agenten-Text persistent speichern
-                    session.session_data.setdefault("agent_messages", {})
-                    session.session_data["agent_messages"][roundn] = {
-                        "text": agent_message,
-                        "timestamp": datetime.now().isoformat(),
-                        "agent_type": get_current_agent_type(roundn),
-                        "conversation_turn": conversation_turn
-                    }
-                    
-                    # 🔑 Agenten-Text auch in Conversation History
-                    session.add_to_conversation_history(
-                        roundn, "agent", agent_message, {"conversation_turn": conversation_turn}
-                    )
 
+                    # Add to conversation history in session
+                    st.session_state.experimental_session.add_to_conversation_history(
+                        roundn, "agent", st.session_state.agent_msg, {"conversation_turn": conversation_turn}
+                    )
             else:
                 # Demo mode with conversation awareness
                 if conversation_turn == 0:
