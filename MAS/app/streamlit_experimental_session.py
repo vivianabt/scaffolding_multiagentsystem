@@ -184,12 +184,12 @@ class StreamlitExperimentalSession:
             {
                 "construct": "ECL",
                 "code": "ECL1",
-                "statement": "Bei dieser Aufgabe ist es mühsam, die wichtigsten Informationen zu erkennen."
+                "statement": "Bei dieser Aufgabe ist es muehsam, die wichtigsten Informationen zu erkennen."
             },
             {
                 "construct": "ECL",
                 "code": "ECL2",
-                "statement": "Die Darstellung bei dieser Aufgabe ist ungünstig, um wirklich etwas zu lernen."
+                "statement": "Die Darstellung bei dieser Aufgabe ist unguenstig, um wirklich etwas zu lernen."
             },
             {
                 "construct": "ECL",
@@ -221,7 +221,7 @@ class StreamlitExperimentalSession:
             {
                 "construct": "GCL",
                 "code": "GCL3",
-                "statement": "Die Lerneinheit enthielt Inhalte, die mich unterstützten, den Lernstoff besser zu verstehen."
+                "statement": "Die Lerneinheit enthielt Inhalte, die mich unterstuetzten, den Lernstoff besser zu verstehen."
             },
             # {
             #     "construct": "GCL",
