@@ -1440,6 +1440,7 @@ class StreamlitExperimentalSession:
     
     def update_concept_map_evolution(self, roundn: int, concept_map_data):
         """Update the concept map evolution tracking with enhanced action logging."""
+        
         try:
             # Convert to internal format with robust error handling
             internal_format = self.convert_streamlit_to_internal_format(concept_map_data)
@@ -1468,6 +1469,22 @@ class StreamlitExperimentalSession:
             }
             
             self.session_data["concept_map_evolution"].append(evolution_entry)
+
+            # -------------------------------
+            # Store per-round snapshot directly in session_data (Variante A)
+            # -------------------------------
+            round_key = f"round_{roundn}"
+            
+            self.session_data["concept_map_rounds"][round_key] = {
+                "timestamp": evolution_entry["timestamp"],
+                "agent_type": agent_type,
+                "concepts": internal_format.get("concepts", []),
+                "relationships": internal_format.get("relationships", []),
+                "actions": action_history,
+                "interaction_metrics": interaction_metrics,
+                "session_timing": session_timing
+            }
+
             
             # Update current concept map (cumulative)
             self.session_data["current_concept_map"] = internal_format
