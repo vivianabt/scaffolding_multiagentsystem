@@ -64,6 +64,7 @@ class StreamlitExperimentalSession:
             "used_agents": [],
             "rounds": [],
             "concept_map_evolution": [],
+            "concept_map_rounds": {},
             "current_concept_map": {"concepts": [], "relationships": []},
             "mode": None
         }
@@ -1514,13 +1515,36 @@ class StreamlitExperimentalSession:
             evolution_entry = {
                 "round": roundn,
                 "timestamp": datetime.now().isoformat(),
-                "concept_map": {"concepts": [], "relationships": [], "error": str(e)},
+                "concept_map": {
+                    "concepts": [],
+                    "relationships": [],
+                    "error": str(e)
+                },
                 "agent_type": agent_type,
                 "action_history": [],
                 "interaction_metrics": {},
                 "session_timing": {}
             }
+            
             self.session_data["concept_map_evolution"].append(evolution_entry)
+            
+            # -------------------------------
+            # Store per-round snapshot directly in session_data (Variante A, safe fallback)
+            # -------------------------------
+            round_key = f"round_{roundn}"
+            
+            self.session_data["concept_map_rounds"][round_key] = {
+                "timestamp": evolution_entry["timestamp"],
+                "agent_type": agent_type,
+                "concepts": [],
+                "relationships": [],
+                "actions": [],
+                "interaction_metrics": {},
+                "session_timing": {},
+                "error": str(e)
+            }
+
+
     
     def log_detailed_concept_map_actions(self, roundn: int, action_history: List[Dict], interaction_metrics: Dict):
         """Log detailed concept map actions for research analysis."""
