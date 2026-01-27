@@ -596,9 +596,16 @@ def render_domain_knowledge_questionnaire():
             if st.session_state.domain_knowledge is None:
                 st.error("Bitte treffen Sie eine Auswahl.")
                 return
-
+        
+            st.session_state.experimental_session.session_data["domain_knowledge"] = {
+                "self_report": st.session_state.domain_knowledge,
+                "timestamp": datetime.now().isoformat(),
+                "participant_id": st.session_state.learner_profile.get("unique_id", "N/A")
+            }
+        
             st.session_state.domain_knowledge_completed = True
             st.rerun()
+
 
 
 def render_critical_ai_questionnaire():
