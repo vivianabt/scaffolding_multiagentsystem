@@ -33,7 +33,7 @@ def init_session_state():
     defaults = {
         "experimental_session": None,
         "mode": None,
-        "learner_profile": None,
+        "learner_profile": {},
         "agent_sequence": [],
         "submit_request": False,
         "followup": False,
