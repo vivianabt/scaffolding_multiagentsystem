@@ -303,9 +303,6 @@ def render_learner_profile():
         st.write("")
         st.write("Du erhaeltst in 4 Runden Hinweise von KI-Agenten, um deine Concept Map zu verbessern.")
 
-        st.markdown("---")
-        st.info("📝 Als naechstes folgt ein Fragebogen zu deinen Vorkenntnissen zu den Aufgabenmaterialien.")
-
         if st.button("Weiter zum Tutorial", type="primary"):
             st.rerun()
 
