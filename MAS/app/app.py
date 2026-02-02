@@ -888,7 +888,6 @@ def render_header():
 def render_task_dialog():
     """Render task description dialog with copy protection."""
     st.markdown("📋 Aufgabenbeschreibung")
-    st.caption("Dieser Inhalt ist geschuetzt und kann nicht kopiert werden.")
 
     # Render task description as protected image with larger font
     render_protected_markdown(TASK_DESCRIPTION, width=1100, font_size=20)
