@@ -280,7 +280,6 @@ def render_profile_login():
     with st.columns([1, 10, 1])[1]:
         st.header("Willkommen zum Experiment")
         st.write("Um an dieser Studie teilzunehmen, fuelle bitte den Profilfragebogen aus.")
-        st.info("Deine Antworten helfen uns dabei, die Anpassung an deine Lernbeduerfnisse zu personalisieren.")
 
         if st.button("Profil einrichten", type='primary', use_container_width=True):
             st.session_state.profile_initialisation_started = True
