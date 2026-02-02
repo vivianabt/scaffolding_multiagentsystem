@@ -564,7 +564,6 @@ def render_map_adaption_question():
             st.session_state.task_difficulty_completed = True
 
             st.success("✅ Danke fuer dein Feedback!")
-            st.info("📋 Weiter geht es mit dem Fragebogen zu deinem Lernerfolg...")
             st.rerun()
 
 
