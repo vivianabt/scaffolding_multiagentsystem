@@ -897,7 +897,6 @@ def render_task_dialog():
 def render_materials_dialog():
     """Render extra materials dialog with copy protection."""
     st.markdown("📚 Zusatzmaterialien")
-    st.caption("Dieser Inhalt ist geschuetzt und kann nicht kopiert werden.")
 
     # Render extra materials as protected image with larger font
     render_protected_markdown(EXTRA_MATERIALS, width=1100, font_size=20)
