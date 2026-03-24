@@ -815,6 +815,9 @@ def render_summary_page():
     
         st.success("Vielen Dank für Deine Teilnahme!")
 
+    # Leading back to Prolific
+    st.markdown("---")
+    st.link_button("Bitte kehre zu Prolific zurueck", "https://app.prolific.com/submissions/complete?cc=CI7THJR0", type="primary")
 
 
     # Leading back to Prolific
