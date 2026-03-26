@@ -1679,9 +1679,7 @@ class StreamlitExperimentalSession:
             # --- Optional post-task measures ---
             if "domain_knowledge" in st.session_state:
                 self.session_data["domain_knowledge"] = st.session_state.domain_knowledge
-    
-            # --- Separate giveaway email ---
-            giveaway_email = st.session_state.get("giveaway_email")
+
     
             # --- Prepare study data (STRICTLY without email) ---
             study_data = dict(self.session_data)
@@ -1689,14 +1687,7 @@ class StreamlitExperimentalSession:
     
             # --- Save study data (DB + files) ---
             export_info = self.save_session_data()
-    
-            # --- Save giveaway email separately ---
-            if giveaway_email:
-                self.save_giveaway_email({
-                    "session_id": self.session_data.get("session_id"),
-                    "email": giveaway_email,
-                    "timestamp": datetime.now().isoformat()
-                })
+
     
             # --- Logging ---
             if self.session_logger:
