@@ -1679,23 +1679,12 @@ class StreamlitExperimentalSession:
             if "domain_knowledge" in st.session_state:
                 self.session_data["domain_knowledge"] = st.session_state.domain_knowledge
     
-            # --- Separate giveaway email ---
-            giveaway_email = st.session_state.get("giveaway_email")
-    
             # --- Prepare study data (STRICTLY without email) ---
             study_data = dict(self.session_data)
             study_data.pop("giveaway_email", None)
     
             # --- Save study data (DB + files) ---
             export_info = self.save_session_data()
-    
-            # --- Save giveaway email separately ---
-            if giveaway_email:
-                self.save_giveaway_email({
-                    "session_id": self.session_data.get("session_id"),
-                    "email": giveaway_email,
-                    "timestamp": datetime.now().isoformat()
-                })
     
             # --- Logging ---
             if self.session_logger:
@@ -1758,20 +1747,6 @@ class StreamlitExperimentalSession:
         except Exception as e:
             st.error(f"Error saving session data: {e}")
             return {"error": str(e)}
-    
-
-    def save_giveaway_email(self, giveaway_data: Dict[str, str]) -> None:
-        """Save giveaway email separately from study data."""
-        try:
-            if not self.db_service:
-                return
-    
-            email = giveaway_data.get("email")
-            if email:
-                self.db_service.insert_verlosung_email(email)
-    
-        except Exception as e:
-            logger.error(f"Error saving giveaway email: {e}")
 
 
         
