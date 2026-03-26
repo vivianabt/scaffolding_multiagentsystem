@@ -293,23 +293,6 @@ class MDBService:
             profile: A UserProfile object to update.
         """
         raise NotImplementedError("Profile update feature is not yet implemented")
-    
-
-    def insert_verlosung_email(self, email: str) -> bool:
-        """
-        Inserts a giveaway email into a separate collection.
-        No relation to sessions or profiles.
-        """
-        try:
-            document = {
-                "email": email,
-                "inserted_at": datetime.now(ZoneInfo("Europe/Berlin")).isoformat()
-            }
-            self._verlosung_emails.insert_one(document)
-            return True
-        except DuplicateKeyError:
-            # Email already exists → silently ignore
-            return False
 
 
     def ping(self) -> None:
