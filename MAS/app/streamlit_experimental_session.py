@@ -593,7 +593,7 @@ class StreamlitExperimentalSession:
                     return None
                 
                 # unique ID
-                unique_id = "V1EF9RLL"
+                unique_id = "CI7THJR0"
                 
                 # Assess background knowledge and determine scaffolding level
                 background_score = self.assess_background_knowledge(background, "")  # No prior knowledge field anymore
