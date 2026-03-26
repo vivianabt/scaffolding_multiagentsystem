@@ -41,8 +41,6 @@ class MDBService:
             self._scaffdb  = self._client['scaffolding'] # scaffolding database
             self._profiles = self._scaffdb['profiles'] # profiles collection (table)
             self._sessions = self._scaffdb['sessions'] # sessions collection (table)
-            self._verlosung_emails = self._scaffdb['verlosung_emails'] # verlosung_emails collection (table)
-            self._verlosung_emails.create_index("email", unique=True) # gleiche Gewinnchance bei Verlosung (nur ein mal speichern)
             self._session_logs = self._scaffdb['session_logs'] # logs collection (table)
             self._load_session_keys()
         except Exception as e:
