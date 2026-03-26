@@ -776,45 +776,6 @@ def render_summary_page():
 
     Danke fuer deinen wertvollen Beitrag zu unserer Forschung ueber KI-gestuetztes Lernen!
     """)
-
-  
-    #E-mailFeld für Gutscheinverlosung
-    st.markdown("---")
-    st.markdown("### 🎁 Freiwillige Teilnahme an der Gutscheinverlosung")
-    
-    st.markdown(
-        "Wenn du an der Gutscheinverlosung teilnehmen möchtest, kannst du **freiwillig** "
-        "deine E-Mail-Adresse angeben. Die E-Mail-Adresse wird **getrennt von deinen Studiendaten** "
-        "gespeichert und ausschließlich für die Verlosung verwendet.")
-
-    st.markdown(
-        "Mit deiner Teilnahme hast du die Chance, einen von drei 15€ Amazon-Gutscheinen zu gewinnen. "
-        "Ob du gewonnen hast wird dir per Mail mitgeteilt, sobald das Experiment abgeschlossen ist."
-    )
-    
-    email = st.text_input(
-        "E-Mail-Adresse (optional)",
-        help="Optional – nur für die Gutscheinverlosung"
-    )
-    
-    consent = st.checkbox(
-        "Ich bin damit einverstanden, dass meine E-Mail-Adresse ausschließlich "
-        "für die Gutscheinverlosung verwendet wird."
-    )
-    
-    if email and not consent:
-        st.error("Bitte bestätige die Einwilligung zur Nutzung der E-Mail-Adresse.")
-    
-    if st.button("Experiment abschließen", type="primary"):
-        if email and not consent:
-            st.stop()
-    
-        if email and consent and st.session_state.experimental_session:
-            st.session_state.experimental_session.save_giveaway_email(
-                {"email": email.strip()}
-            )
-    
-        st.success("Vielen Dank für Deine Teilnahme!")
     
     # Leading back to Prolific
     st.markdown("---")
