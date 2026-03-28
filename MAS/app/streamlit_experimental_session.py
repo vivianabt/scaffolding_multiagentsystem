@@ -459,7 +459,10 @@ class StreamlitExperimentalSession:
         
         with st.form("learner_profile_form"):
 
-            name = st.text_input("Alias*", help="Choose an alias or identifier")
+            name = st.text_input(
+                "Alias (Prolific ID)*",
+                help="Bitte gib hier deine Prolific ID ein."
+            )
         
             age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
         
