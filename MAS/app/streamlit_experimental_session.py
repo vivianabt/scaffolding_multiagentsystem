@@ -391,7 +391,7 @@ class StreamlitExperimentalSession:
         st.warning("""
         **Wichtiger Hinweis:**
         
-        Alle Daten werden anonymisiert. Wir erfassen keinen Klarnamen – gib deine Prolific-ID als Alias ein.
+        Alle Daten werden anonymisiert. Wir erfassen keinen Klarnamen – gib deine Prolific-ID ein.
                    
         Fuer die Integritaet der Studie bitten wir dich:
         - Nutze nur deine eigenen kognitiven Faehigkeiten und die bereitgestellten Materialien.
@@ -459,10 +459,7 @@ class StreamlitExperimentalSession:
         
         with st.form("learner_profile_form"):
 
-            name = st.text_input(
-                "Alias (Prolific ID)*",
-                help="Bitte gib hier deine Prolific ID ein."
-            )
+            name = st.text_input("Prolific ID*", help="Bitte gib hier deine Prolific ID ein.")
         
             age = st.number_input("Age*", min_value=18, max_value=100, help="Your age")
         
