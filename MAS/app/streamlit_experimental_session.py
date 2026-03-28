@@ -391,7 +391,7 @@ class StreamlitExperimentalSession:
         st.warning("""
         **Wichtiger Hinweis:**
         
-        Alle Daten werden anonymisiert. Wir erfassen keinen Klarnamen – waehle ein Alias.
+        Alle Daten werden anonymisiert. Wir erfassen keinen Klarnamen – gib deine Prolific-ID als Alias ein.
                    
         Fuer die Integritaet der Studie bitten wir dich:
         - Nutze nur deine eigenen kognitiven Faehigkeiten und die bereitgestellten Materialien.
