@@ -1715,6 +1715,17 @@ class StreamlitExperimentalSession:
             # --- Save study data (DB + files) ---
             export_info = self.save_session_data()
 
+            #attention checks
+            early_fail = st.session_state.get("attention_early_failed", False)
+            late_fail = st.session_state.get("attention_check_failed", False)
+            
+            self.session_data["attention_checks"] = {
+                "early_failed": early_fail,
+                "late_failed": late_fail,
+                "both_failed": early_fail and late_fail,
+                "early_response": st.session_state.get("attention_early_response", None)
+            }
+
     
             # --- Logging ---
             if self.session_logger:
