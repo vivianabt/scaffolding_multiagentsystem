@@ -603,6 +603,16 @@ class StreamlitExperimentalSession:
                     st.error("Please select your highest educational level from the dropdown menu")
                     return None
 
+                # Attention Check (early)
+                if attention_early is None:
+                    st.error("Bitte beantworte alle Fragen, bevor du fortfährst.")
+                    return None
+                    
+                elif attention_early != "Stimme eher nicht zu":
+                    st.session_state.attention_early_failed = True
+                else:
+                    st.session_state.attention_early_failed = False
+
                 st.session_state.attention_early_response = attention_early
                 
                 # unique ID
