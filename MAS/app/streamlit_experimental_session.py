@@ -609,7 +609,6 @@ class StreamlitExperimentalSession:
                     
                 elif attention_early != "Stimme eher nicht zu":
                     st.session_state.attention_early_failed = True
-                    st.warning("⚠️ Bitte achten Sie stärker auf die Fragen.")
                 else:
                     st.session_state.attention_early_failed = False
                 
