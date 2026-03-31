@@ -1468,8 +1468,7 @@ def main():
 
     # Attention check failure page (experimental mode only, after pre-questionnaire)
     if (st.session_state.mode == "experimental" and
-            st.session_state.attention_check_failed):
-        st.warning("⚠️ Attention Check nicht bestanden – bitte künftig sorgfältiger lesen.")
+            st.session_state.attention_check_failed)
 
     # Tutorial flow (experimental mode only)
     if (st.session_state.mode == "experimental" and
