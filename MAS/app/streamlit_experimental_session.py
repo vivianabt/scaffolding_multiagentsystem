@@ -572,6 +572,8 @@ class StreamlitExperimentalSession:
             submitted = st.form_submit_button("Create Profile", type="primary")
             
             if submitted:
+
+                st.session_state.attention_early_response = attention_early
                 # Validate required fields
                 # if not all([name, age, gender, nationality, background, confidence, confidencechat]):
                 if not all([
