@@ -1712,16 +1712,22 @@ class StreamlitExperimentalSession:
             study_data = dict(self.session_data)
             study_data.pop("giveaway_email", None)
 
-                        #attention checks
+            #attention checks
+            # --------------------------------
             early_fail = st.session_state.get("attention_early_failed", False)
             late_fail = st.session_state.get("attention_check_failed", False)
+            
+            clt_data = self.session_data.get("clt_questionnaire", {})
+            late_response = clt_data.get("responses", {}).get("ATTN1", {}).get("response_value")
             
             self.session_data["attention_checks"] = {
                 "early_failed": early_fail,
                 "late_failed": late_fail,
                 "both_failed": early_fail and late_fail,
-                "early_response": st.session_state.get("attention_early_response", None)
+                "early_response": st.session_state.get("attention_early_response", None),
+                "late_response": late_response
             }
+
     
             # --- Save study data (DB + files) ---
             export_info = self.save_session_data()
