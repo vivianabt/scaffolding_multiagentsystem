@@ -553,6 +553,21 @@ class StreamlitExperimentalSession:
             # other_factors = st.text_input("Other factors (please specify)", help="Any other learning factors not listed above")
             # if other_factors:
             #     learning_factors.append(f"Other: {other_factors}")
+
+
+            #attention-check
+            attention_early = st.radio(
+                "Um zu zeigen, dass Sie aufmerksam sind, wählen Sie bitte „Stimme eher nicht zu“.",
+                [
+                    "Stimme voll zu",
+                    "Stimme eher zu",
+                    "Neutral",
+                    "Stimme eher nicht zu",
+                    "Stimme überhaupt nicht zu"
+                ],
+                index=None,
+                key="attention_early_check"
+            )
             
             submitted = st.form_submit_button("Create Profile", type="primary")
             
@@ -588,7 +603,21 @@ class StreamlitExperimentalSession:
                 if background == "Please select...":
                     st.error("Please select your highest educational level from the dropdown menu")
                     return None
+
+                # Attention Check (early)
+                if attention_early is None:
+                    st.error("Bitte beantworte alle Fragen, bevor du fortfährst.")
+                    return None
+                    
+                elif attention_early != "Stimme eher nicht zu":
+                    st.session_state.attention_early_failed = True
+                    st.warning("⚠️ Bitte achten Sie stärker auf die Fragen.")
+                else:
+                    st.session_state.attention_early_failed = False
                 
+                st.session_state.attention_early_response = attention_early
+
+
                 # unique ID
                 unique_id = "CI7THJR0"
                 
