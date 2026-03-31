@@ -554,6 +554,20 @@ class StreamlitExperimentalSession:
                 # other_factors = st.text_input("Other factors (please specify)", help="Any other learning factors not listed above")
                 # if other_factors:
                 #     learning_factors.append(f"Other: {other_factors}")
+
+            #attention-check
+            attention_early = st.radio(
+                "Um zu zeigen, dass Sie aufmerksam sind, wählen Sie bitte „Stimme eher nicht zu“.",
+                [
+                    "Stimme voll zu",
+                    "Stimme eher zu",
+                    "Neutral",
+                    "Stimme eher nicht zu",
+                    "Stimme überhaupt nicht zu"
+                ],
+                index=None,
+                key="attention_early_check"
+            )
             
             submitted = st.form_submit_button("Create Profile", type="primary")
             
