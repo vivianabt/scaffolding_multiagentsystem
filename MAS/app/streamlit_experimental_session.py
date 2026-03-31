@@ -573,7 +573,6 @@ class StreamlitExperimentalSession:
             
             if submitted:
 
-                st.session_state.attention_early_response = attention_early
                 # Validate required fields
                 # if not all([name, age, gender, nationality, background, confidence, confidencechat]):
                 if not all([
@@ -605,6 +604,8 @@ class StreamlitExperimentalSession:
                 if background == "Please select...":
                     st.error("Please select your highest educational level from the dropdown menu")
                     return None
+
+                st.session_state.attention_early_response = attention_early
                 
                 # unique ID
                 unique_id = "CI7THJR0"
