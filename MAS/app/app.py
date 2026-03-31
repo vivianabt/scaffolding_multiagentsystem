@@ -1468,8 +1468,8 @@ def main():
         return
 
     # Attention check failure page (experimental mode only, after pre-questionnaire)
-    if (st.session_state.mode == "experimental" and
-            st.session_state.attention_check_failed):
+    if st.session_state.mode == "experimental" and st.session_state.attention_check_failed:
+        pass
 
     # Tutorial flow (experimental mode only)
     if (st.session_state.mode == "experimental" and
