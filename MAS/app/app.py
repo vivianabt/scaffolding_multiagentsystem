@@ -41,6 +41,7 @@ def init_session_state():
         "consent_given": False,
         "consent_declined": False,
         "attention_check_failed": False,
+        "attention_early_failed": False,
         "profile_initialisation_started": False,
         "session_initialized": False,
         "profile_initialized": False,
