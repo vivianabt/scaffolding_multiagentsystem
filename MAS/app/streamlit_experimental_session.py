@@ -328,8 +328,6 @@ class StreamlitExperimentalSession:
                                 "timestamp": datetime.now().isoformat()
                             }
                         )
-                
-                    st.warning("⚠️ Bitte achten Sie stärker auf die Fragen.")
 
                 
                 # Add to session data
