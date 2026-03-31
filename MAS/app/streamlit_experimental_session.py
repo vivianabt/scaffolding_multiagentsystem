@@ -328,9 +328,7 @@ class StreamlitExperimentalSession:
                             }
                         )
                 
-                    st.error("❌ Aufmerksamkeitscheck nicht bestanden.")
-                    st.rerun()
-                    return
+                    st.warning("⚠️ Bitte achten Sie stärker auf die Fragen.")
 
                 
                 # Add to session data
